@@ -1,4 +1,4 @@
-(function( $ ) { /**
+/**
  * Change value of another input on current on '.wellcrafted_input_change_trigger' change
  * '.wellcrafted_input_change_trigger' can have data-attributes:
  * - data-target: selector of inputs to change
@@ -23,4 +23,4 @@ $( '.wellcrafted_input_change_trigger' ).change( function() {
     }
 });
 
-$( '.wellcrafted_input_change_trigger' ).change(); })( jQuery );
+$( '.wellcrafted_input_change_trigger' ).change();

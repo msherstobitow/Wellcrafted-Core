@@ -25,6 +25,7 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
 
     private $compatible_php_version = '5.4.0';
     private $is_compatible = null;
+    protected $use_styles = true;
     protected $use_scripts = true;
 
     public function __construct() {

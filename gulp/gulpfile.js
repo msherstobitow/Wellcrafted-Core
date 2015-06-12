@@ -29,7 +29,6 @@ gulp.task( 'default', function() {
      * Stylus
      */
     gulp.src( '../development/assets/stylus/style.styl' )
-        .pipe( newer( '../wellcrafted-core/assets/css/style.css' ) )
         .pipe( stylus() )
         .pipe( csscomb() )
         .pipe( autoprefixer({
@@ -42,9 +41,12 @@ gulp.task( 'default', function() {
     /**
      * Scripts
      */
-    gulp.src( '../development/assets/javascript/script.js' )
-        .pipe( newer( '../wellcrafted-core/assets/javascript/script.js' ) )
+    gulp.src( [
+            '../development/assets/javascript/input-change-trigger.js'
+        ] )
+        .pipe(wrap('(function( $ ) { <%= contents %> })( jQuery );'))
         .pipe( jshint() )
+        .pipe( rename( 'script.js' ) )
         .pipe( gulp.dest( '../wellcrafted-core/assets/javascript/' ) );
 } );
 
