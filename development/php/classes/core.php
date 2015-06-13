@@ -16,7 +16,10 @@ require 'plugin.php';
 /**
  * Require functions
  */
-require dirname( __FILE__ ) . '/../functions/arrays.php';
+$wellcrafted_function_path = dirname( __FILE__ ) . '/../functions/';
+require $wellcrafted_function_path . 'system.php';
+require $wellcrafted_function_path . 'arrays.php';
+require $wellcrafted_function_path . 'mail.php';
 
 /**
  * @todo  PHPDoc
