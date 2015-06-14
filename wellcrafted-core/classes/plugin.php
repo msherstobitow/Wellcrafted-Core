@@ -11,6 +11,7 @@ class Wellcrafted_Plugin {
     protected $plugin_name = null;
     protected $plugin_path = null;
     protected $plugin_url = null;
+    protected $support_email = null;
 
     public function __construct() {
         if ( $this->use_autoloader ) {
@@ -31,6 +32,8 @@ class Wellcrafted_Plugin {
                 array( 'jquery' )
             );
         }
+
+        $this->connect_to_support_plugin();
     }
 
     private function init_parameters() {
@@ -80,5 +83,17 @@ class Wellcrafted_Plugin {
                 }
             }
         });
+    }
+
+    public function connect_to_support_plugin() {
+        add_filter( 'wellcrafted_support_developers_emails', [ &$this, 'add_developer_support_email' ] );
+    }
+
+    public function add_developer_support_email( $emails ) {
+        if ( $this->support_email ) {
+            $emails[ $this->get_plugin_name() ] = $this->support_email;
+        }
+
+        return $emails;
     }
 }
