@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * @todo  PHPDoc
  */
@@ -300,16 +304,24 @@ class Wellcrafted_Post_Type {
 
     private function _localize_script() {
         if ( is_admin() ) {
+
             add_action( 'admin_enqueue_scripts', function() {
-                global $post_type;
-                Wellcrafted_Assets::localize_admin_script(
-                    WELLCRAFTED . '_base_admin_script', 
-                    'wellcrafted_post_type', 
-                    [ 
-                        'current_post_type' => $post_type
-                    ]
-                );
+                global $pagenow;
+
+                if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
+                    global $post_type;
+                }
+                if ( isset( $post_type ) ) {
+                    Wellcrafted_Assets::localize_admin_script(
+                        Wellcrafted_Core::registry()->plugin_system_name . '_base_admin_script', 
+                        'wellcrafted_post_type', 
+                        [ 
+                            'current_post_type' => $post_type
+                        ]
+                    );
+                }
             }, 0);
+            
         }
     }
 

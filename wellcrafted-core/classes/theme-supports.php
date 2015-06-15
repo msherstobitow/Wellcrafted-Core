@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * @todo  PHPDoc
  */
@@ -24,7 +28,7 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * Register theme support for future using
-     * @param String $support A support name
+     * @param string $support A support name
      */
     public function register_support( $support ) {
         $this->supports[ $support ] = true;
@@ -32,8 +36,8 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * Register a support with params
-     * @param  [type] $support Support name
-     * @param  [type] $param   Param name
+     * @param  string $support Support name
+     * @param  mixed $param   Param name
      * @param  string $value   Param value name; may be empty if support param is plain string
      */
     public function register_support_param( $support, $param, $value = '' ) {
