@@ -1,10 +1,14 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * @todo  PHPDoc
  */
 trait Wellcrafted_Singleton_Trait {
- 
+
     public static function instance() {
         static $instance = null;
 
@@ -14,4 +18,5 @@ trait Wellcrafted_Singleton_Trait {
 
         return $instance;
     }
+
 }

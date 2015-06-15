@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Get an array value if key exists or return a default vakue
  * @param  array $array     Array to search in

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Class for a custom post type which should not be available for
  * clients but only for admins in wp-admin area

@@ -1,5 +1,12 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * @todo  PHPDoc
+ */
 class Wellcrafted_Admin_Notices {
 
     public static function add( $message, $type ) {
