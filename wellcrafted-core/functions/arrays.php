@@ -1,8 +1,15 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
+
+/**
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
+ */
 
 /**
  * Get an array value if key exists or return a default vakue
@@ -10,6 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param  scalar $key      A key of an array
  * @param  string $default  Default value to return if a key doesn't exists
  * @return mixed            A value of an array or a default value
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  *
  * @todo  write PHPDoc
  */
@@ -28,6 +39,11 @@ function wellcrafted_array_value( $array, $key, $default = '' ) {
  * @param  integer or string    $position   An integer or a string key position to insert after
  * @param  array                $insert     An array to insert
  * @return array                            Modified array
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
+ * 
  */
 function wellcrafted_insert_to_array( $array, $position, $insert ) {
     if ( ! is_array( $array ) ) {

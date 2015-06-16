@@ -1,11 +1,16 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
 /**
- * @todo  PHPDoc
+ * Wellcrafted_Taxonomy is a base class for Wellcrafted Taxonomy classes
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  */
 class Wellcrafted_Taxonomy {
 
@@ -170,7 +175,6 @@ class Wellcrafted_Taxonomy {
      */
     protected $meta_box_cb = null;
     
-
     /**
      * Whether to allow automatic creation of taxonomy columns on associated post-types table. (Available since 3.5) 
      * @var boolean
@@ -312,9 +316,14 @@ class Wellcrafted_Taxonomy {
         'year'
     ];
 
+    /**
+     * @todo  PHPDoc
+     */
     protected $taxonomy_params = [];
 
-
+    /**
+     * @todo  PHPDoc
+     */
     public function __construct() {
         /**
          * @todo Should taxonomy be shorten to 32 chars?
@@ -423,7 +432,6 @@ class Wellcrafted_Taxonomy {
             'not_found' => $this->not_found_label
         ];
 
-
         $this->taxonomy_params = [
             'label' => $this->label,
             'labels' => $labels,
@@ -446,14 +454,11 @@ class Wellcrafted_Taxonomy {
     }
 
     /**
-     * [register_taxonomy description]
-     * @return [type] [description]
      * @todo  PHPDoc
      */
     public function register_taxonomy() {
         register_taxonomy( $this->taxonomy, array($this->object_type), $this->taxonomy_params );
         self::$reserved_terms[] = $this->taxonomy;
     }
-
 
 }

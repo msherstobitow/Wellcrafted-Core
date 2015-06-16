@@ -1,24 +1,70 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
 /**
- * @todo  PHPDoc
+ * Wellcrafted_Assets allows to add any assets to a head or a footer of a page, both front and admin
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  */
 class Wellcrafted_Assets {
 
+    /**
+     * Wellcrafted_Singleton_Trait add into a class Singleton pattern ability
+     */
     use Wellcrafted_Singleton_Trait;
 
-    private $version = '1.0.0';
+    /**
+     * An array of styles options to link in both client and admin
+     * @var array
+     */
     private $wp_styles = array();
+
+    /**
+     * An array of scripts options to link in both client and admin
+     * @var array
+     */
     private $wp_scripts = array();
+
+    /**
+     * An array of styles options to link in admin area
+     * @var array
+     */
     private $admin_styles = array();
+
+    /**
+     * An array of scripts options to link in admin area
+     * @var array
+     */
     private $admin_scripts = array();
+
+    /**
+     * An array of scripts localizations options to link in admin area
+     * @var array
+     */
     private $admin_script_localizations = array();
+
+    /**
+     * Whether to use media assets in admin
+     * @var boolean
+     */
     private $use_media = false;
+
+    /**
+     * An array of inline styles options
+     * @var array
+     */
     private $inline_css = array();
+
+    /**
+     * An array of inline scripts options
+     * @var array
+     */
     private $inline_js = array();
 
     public function __construct() {
@@ -34,10 +80,27 @@ class Wellcrafted_Assets {
         }
     }
 
+    /**
+     * Set admin to use media assets
+     */
     public static function use_admin_media() {
         self::instance()->use_media = true;
     }
 
+    
+    /**
+     * Add a style to assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $media  Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     */
     public static function add_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         self::instance()->wp_styles[] = array(
             'handle' => $handle,
@@ -48,6 +111,20 @@ class Wellcrafted_Assets {
         );
     }
 
+
+    /**
+     * Add a style to admin assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $media  Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     */
     public static function add_admin_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         if ( !in_array( 'wp-admin', $deps ) ) {
             $deps[] = 'wp-admin';
@@ -62,6 +139,19 @@ class Wellcrafted_Assets {
         );
     }
 
+    /**
+     * Add a style to assets queue both client and admin
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $media  Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     */
     public static function add_common_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         if ( is_admin() ) {
             self::add_admin_style( $handle, $src, $deps, $ver, $media );
@@ -70,6 +160,21 @@ class Wellcrafted_Assets {
         }
     }
 
+    /**
+     * Add a script to assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $deps     Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
+     *                               Default 'false'. Accepts 'false' or 'true'.
+     */
     public static function add_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
         self::instance()->wp_scripts[] = array(
             'handle' => $handle,
@@ -80,6 +185,21 @@ class Wellcrafted_Assets {
         );
     }
 
+    /**
+     * Add a script to admin assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $deps     Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
+     *                               Default 'false'. Accepts 'false' or 'true'.
+     */
     public static function add_admin_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
         self::instance()->admin_scripts[] = [
             'handle' => $handle,
@@ -90,14 +210,46 @@ class Wellcrafted_Assets {
         ];
     }
     
+    /**
+     * Add a script to assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $deps     Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     */
     public static function add_footer_script( $handle, $src, $deps = array(), $ver = null ) {
         self::add_script( $handle, $src, $deps, $ver, true );
     }
-    
+
+    /**
+     * Add a script to admin assets queue
+     *
+     * @param string      $handle    Name of the script.
+     * @param string|bool $src       Path to the script from the root directory of WordPress. Example: '/js/myscript.js'.
+     * @param array       $deps      An array of registered handles this script depends on. Default empty array.
+     * @param string|bool $ver       Optional. String specifying the script version number, if it has one. This parameter
+     *                               is used to ensure that the correct version is sent to the client regardless of caching,
+     *                               and so should be included if a version number is available and makes sense for the script.
+     * @param string      $deps     Optional. The media for which this stylesheet has been defined.
+     *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
+     *                            'screen', 'tty', or 'tv'.
+     */
     public static function add_admin_footer_script( $handle, $src, $deps = array(), $ver = null ) {
         self::add_admin_script( $handle, $src, $deps, $ver, true );
     }
 
+    /**
+     * @param string $handle      Script handle the data will be attached to.
+     * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
+     *                            Example: '/[a-zA-Z0-9_]+/'.
+     * @param array $data         The data itself. The data can be either a single or multi-dimensional array.
+     */
     public static function localize_admin_script( $handle, $object_name, $data ) {
         self::instance()->admin_script_localizations[] = [
             'handle' => $handle,
@@ -106,7 +258,10 @@ class Wellcrafted_Assets {
         ];
     }
 
-    // TODO: remove style tag if exists
+
+    /**
+     * Enqueue all queued assets
+     */
     public function enqueue_scripts() {
         if ( is_admin() ) {
             if ( self::instance()->use_media ) {
@@ -126,6 +281,7 @@ class Wellcrafted_Assets {
             }
         } else {
             if ( isset( $this->inline_css ) ) {
+                preg_replace( "/<script.*?\/script>/s", '', $this->inline_css ) ? : $this->inline_css;
                 wp_add_inline_style( 'theme_style', $this->inline_css );
             }
             foreach ( $this->wp_styles as $style ) {
@@ -138,14 +294,18 @@ class Wellcrafted_Assets {
         }
     }
 
-    // TODO: remove script tag if exists
+    /**
+     * Removes 'script' tags and print footer inline script.
+     */
     public function wp_footer() {
         if ( isset( $this->inline_js ) ) {
-            echo '<script>' . $this->inline_js . '</script>';
+            echo preg_replace( "/<script.*?\/script>/s", '', $this->inline_js ) ? : $this->inline_js;
         }
     }
 
+
     /**
+     * Print a favicon link
      * @todo A modern list of favicons links
      */
     public static function favicon() {
