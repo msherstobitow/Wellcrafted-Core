@@ -1,21 +1,85 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
 /**
- * @todo  PHPDoc
+ * Wellcrafted_Plugin is a base class for Wellcrafted plugins.
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  */
 class Wellcrafted_Plugin {
-
+    /**
+     * Whether a plugin should use its own autoloader.
+     *
+     * Autoloader will load classes by "Wellcrafted_*" pattern. For example:
+     * - Wellcrefted_Post_Type will match PLUGIN-FOLDER/classes/post-type.php
+     * - Wellcrafted_Singleton_Trait will mattch PLUGIN-FOLDER/traits/singleton.php
+     * 
+     * @since  1.0.0
+     */
     protected $use_autoloader = true;
+
+    /**
+     * Whether to use plugin's default styles
+     * 
+     * The style should be placed at ./assets/css/style.css
+     * @var boolean
+     * @since  1.0.0
+     */
     protected $use_styles = false;
+
+    /**
+     * Whether to use plugin's default scripts
+     * 
+     * The script should be placed at ./assets/javascript/script.js
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
     protected $use_scripts = false;
+
+    /**
+     * Define a plugin name.
+     *
+     * If not defined a wordpress plugin name will be used
+     * 
+     * @var null
+     */
     protected $plugin_name = null;
+
+    /**
+     * Define a plugin system name. It builds from sanitized plugin name. 
+     * 
+     * @var null
+     */
     protected $plugin_system_name = null;
+
+    /**
+     * A plugin absolute path.
+     * 
+     * @since  1.0.0
+     */
     protected $plugin_path = null;
+
+    /**
+     * A plugin folder URL.
+     * 
+     * @since  1.0.0
+     */
     protected $plugin_url = null;
+
+    /**
+     * A developer's support email. 
+     * 
+     * Any plugin based on Wellcrafted_Plugin class can use this property to add a support email address to be used in "Wellcrafted Support" plugin.
+     * 
+     * @since  1.0.0
+     */
     protected $support_email = null;
     
 
@@ -58,25 +122,29 @@ class Wellcrafted_Plugin {
         $this->connect_to_support_plugin();
     }
 
+    /**
+     * Init plugin parameters. It shouldn't be called explicitly.
+     * 
+     * @since  1.0.0
+     */
     private function init_parameters() {
         $reflector = new ReflectionClass( $this );
         $filename = $reflector->getFileName();
         $dirname = dirname( $filename );
 
-        $plugin_folder_name = basename( dirname( $dirname ) );
-        $plugin_wp_key = $plugin_folder_name . '/' . $plugin_folder_name . '.php';
+        if ( ! $this->plugin_name ) {
+            $plugin_folder_name = basename( dirname( $dirname ) );
+            $plugin_wp_key = $plugin_folder_name . '/' . $plugin_folder_name . '.php';
 
-        if ( ! function_exists( 'get_plugins' ) ) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
+            if ( ! function_exists( 'get_plugins' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/plugin.php';
+            }
 
-        $all_plugins = get_plugins();
+            $all_plugins = get_plugins();
 
-        if ( isset( $all_plugins[ $plugin_wp_key ] ) ) {
             $this->plugin_name = $all_plugins[ $plugin_wp_key ][ 'Name' ];
-        } else {
-            $this->plugin_name = strtolower( $reflector->getName() );
         }
+
 
         $this->plugin_system_name = sanitize_title( $this->plugin_name );
         $this->plugin_path = realpath( $dirname . '/../' );
@@ -86,6 +154,13 @@ class Wellcrafted_Plugin {
 
     }
 
+    /**
+     * Return a nice plugin's name
+     * 
+     * @return string Plugin's name
+     * 
+     * @since  1.0.0
+     */
     public function get_plugin_name() {
         if ( null === $this->plugin_name ) {
             $this->init_parameters();
@@ -94,6 +169,13 @@ class Wellcrafted_Plugin {
         return $this->plugin_name;
     }
 
+    /**
+     * Return a nice plugin's system name.
+     * 
+     * @return string Plugin's system name.
+     * 
+     * @since  1.0.0
+     */
     public function get_plugin_system_name() {
         if ( null === $this->plugin_system_name ) {
             $this->init_parameters();
@@ -102,6 +184,13 @@ class Wellcrafted_Plugin {
         return $this->plugin_system_name;
     }
 
+    /**
+     * Return a nice plugin's absolute path.
+     * 
+     * @return string Plugin's absolute path.
+     * 
+     * @since  1.0.0
+     */
     public function get_plugin_path() {
         if ( null === $this->plugin_path ) {
             $this->init_parameters();
@@ -110,6 +199,13 @@ class Wellcrafted_Plugin {
         return $this->plugin_path;
     }
 
+    /**
+     * Return a nice plugin's fiolder URL.
+     * 
+     * @return string Plugin's fiolder URL.
+     * 
+     * @since  1.0.0
+     */
     public function get_plugin_url() {
         if ( null === $this->plugin_url ) {
             $this->init_parameters();
@@ -118,10 +214,21 @@ class Wellcrafted_Plugin {
         return $this->plugin_url;
     }
 
+    /**
+     * Init plugin's registry
+     * 
+     * @since  1.0.0
+     */
     protected static function init_registry() {
         static::$registry = new Wellcrafted_Registry();
     }
 
+    /**
+     * Return plugin's registry to get regisry's stored data
+     *
+     * @return  Wellcrafted_Registry A Wellcrafted_Registry instance
+     * @since  1.0.0
+     */
     public static function registry() {
         if ( ! static::$use_registry ) {
             static::$use_registry = false;
@@ -131,6 +238,15 @@ class Wellcrafted_Plugin {
         return static::$registry;
     }
 
+    /**
+     * Add a common autoload logic to a plugin
+     *
+     * Autoloader will load classes by "Wellcrafted_*" pattern. For example:
+     * - Wellcrefted_Post_Type will match PLUGIN-FOLDER/classes/post-type.php
+     * - Wellcrafted_Singleton_Trait will mattch PLUGIN-FOLDER/traits/singleton.php
+     * 
+     * @since  1.0.0
+     */
     protected function run_autoloader() {
         spl_autoload_register( function ( $class ) {
             if ( strpos( $class, 'Wellcrafted_' ) === 0 ) {
@@ -145,10 +261,19 @@ class Wellcrafted_Plugin {
         });
     }
 
+    /**
+     * Add a filter to enqeue developer's support email to "Wellcrafted Support" plugin
+     * 
+     * @since  1.0.0
+     */
     public function connect_to_support_plugin() {
         add_filter( 'wellcrafted_support_developers_emails', [ &$this, 'add_developer_support_email' ] );
     }
 
+    /**
+     * Add plugin developer's support email(-s)
+     * @param array Registered developers' support emails
+     */
     public function add_developer_support_email( $emails ) {
         if ( $this->support_email ) {
             $emails[ $this->get_plugin_name() ] = $this->support_email;

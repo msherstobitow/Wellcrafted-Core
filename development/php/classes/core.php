@@ -1,6 +1,7 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
@@ -22,16 +23,57 @@ require $wellcrafted_function_path . 'arrays.php';
 require $wellcrafted_function_path . 'mail.php';
 
 /**
- * @todo  PHPDoc
+ * Wellcrafted_Core is a base framework class.
+ * It checks envoronment state and makes all Wellcrafted products work.
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  */
 class Wellcrafted_Core extends Wellcrafted_Plugin {
 
+    /**
+     * A minimum PHP version to use Wellcrafted Plugins
+     * 
+     * @var string
+     * @since  1.0.0 
+     */
     private $compatible_php_version = '5.4.0';
+
+    /**
+     * Whether a plugin environment is compatible with Wellcrafted requirements
+     * 
+     * @var null
+     * @since  1.0.0
+     */
     private $is_compatible = null;
 
+    /**
+     * Whether to use plugin's default styles
+     * 
+     * The style should be placed at ./assets/css/style.css
+     * @var boolean
+     * @since  1.0.0
+     */
     protected $use_styles = true;
+
+    /**
+     * Whether to use plugin's default scripts
+     * 
+     * The script should be placed at ./assets/javascript/script.js
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
     protected $use_scripts = true;
 
+    /**
+     * Contain aplugin's own registry.
+     * If not defined the plugin will use common Wellcrafted plugins registry.
+     * 
+     * @var null
+     * @since  1.0.0
+     */
     protected static $registry = null;
 
     public function __construct() {
@@ -49,7 +91,7 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
     /**
      * Init the plugin and trigger Wellcrafted plugins initialisation process
      *
-     * @since  1.0 
+     * @since  1.0.0
      */
     private function init() {
         register_activation_hook( __FILE__, array( &$this, 'check_php_version' ) );
@@ -68,8 +110,7 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
     /**
      * Set the plugin compatibility state
      *
-     * @since 1.0
-     * 
+     * @since  1.0.0
      * @return boolean Whether a PHP version is compatible with the plugin requirements
      */
     public function is_compatible() {
@@ -82,8 +123,7 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
     /**
      * Check if a PHP version is compatible with the plugin requirements.
      *
-     * @since 1.0
-     * 
+     * @since  1.0.0
      * @return bool Whether a PHP version is compatible with the plugin requirements
      */
     public function check_php_version() {
