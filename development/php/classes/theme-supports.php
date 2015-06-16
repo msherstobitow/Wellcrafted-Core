@@ -1,16 +1,24 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+    header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
 /**
- * @todo  PHPDoc
+ * Wellcrafted_Theme_Supports class allows to add theme supports and modify params before "after_setup_theme" hook.
+ *
+ * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
+ * @version 1.0.0
+ * @package Wellcrafted\Core
  */
 class Wellcrafted_Theme_Supports {
 
     use Wellcrafted_Singleton_Trait;
 
+    /**
+     * @todo  PHPDoc
+     */
     private $supports = [];
 
     public function __construct() {
