@@ -12,9 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 /**
- * @todo PHPDoc
+ * Return text/html content type for WordPress wp_mail function
+ * 
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0
+ * @since  1.0.0
  * @package Wellcrafted\Core
  */
 function wellcrafted_set_html_content_type() {

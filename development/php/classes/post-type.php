@@ -362,7 +362,9 @@ class Wellcrafted_Post_Type {
 
     public function __construct() {
         /**
-         * Normalize a post type value. The value will be unspaced and cut to 32 chars as it is WordPress requirement.
+         * Normalize a post type value. The value will be unspaced and cut to 32 chars as it is WordPress requirements.
+         *
+         * @see https://codex.wordpress.org/Function_Reference/register_post_type An official Codex page.
          */
         $this->post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 32 );
 
@@ -442,7 +444,6 @@ class Wellcrafted_Post_Type {
      * 
      * @param  array $columns columns to show
      * @since  1.0.0
-     * 
      */
     public function edit_column( $column, $post_id ) {}
 
@@ -589,6 +590,7 @@ class Wellcrafted_Post_Type {
 
     /**
      * Allows post type to change its own messages
+     * 
      * @param  array $messages Messages array
      * @return array           Modified messages array
      * @since  1.0.0

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 /**
- * Get an array value if key exists or return a default vakue
+ * Get an array value if key exists or return a default value
  * @param  array $array     Array to search in
  * @param  scalar $key      A key of an array
  * @param  string $default  Default value to return if a key doesn't exists
@@ -20,9 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0
+ * @since  1.0.0
  * @package Wellcrafted\Core
- *
- * @todo  write PHPDoc
  */
 function wellcrafted_array_value( $array, $key, $default = '' ) {
     if ( is_array( $array ) && isset( $array[ $key ] ) ) {
@@ -42,6 +41,7 @@ function wellcrafted_array_value( $array, $key, $default = '' ) {
  *
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0
+ * @since  1.0.0
  * @package Wellcrafted\Core
  * 
  */

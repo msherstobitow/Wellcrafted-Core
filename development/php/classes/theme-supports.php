@@ -17,7 +17,8 @@ class Wellcrafted_Theme_Supports {
     use Wellcrafted_Singleton_Trait;
 
     /**
-     * @todo  PHPDoc
+     * A list of theme supports.
+     * @var array
      */
     private $supports = [];
 

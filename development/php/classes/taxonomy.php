@@ -317,18 +317,18 @@ class Wellcrafted_Taxonomy {
     ];
 
     /**
-     * @todo  PHPDoc
+     * Taxonomy params array.
+     * @var array
      */
     protected $taxonomy_params = [];
 
-    /**
-     * @todo  PHPDoc
-     */
     public function __construct() {
         /**
-         * @todo Should taxonomy be shorten to 32 chars?
+         * Normalize a taxonomy value. The value will be unspaced and cut to 32 chars as it is WordPress requirements.
+         *
+         * @see  https://codex.wordpress.org/Function_Reference/register_taxonomy An official Codex page
          */
-        $this->taxonomy = str_replace( ' ', '', strtolower( $this->taxonomy ) );
+        $this->taxonomy = substr( str_replace( ' ', '', strtolower( $this->taxonomy ) ), 0, 32 );
 
         if ( null == $this->taxonomy || 
             in_array( $this->taxonomy, self::$reserved_terms ) ) {
@@ -360,10 +360,10 @@ class Wellcrafted_Taxonomy {
     protected function set_params() {}
 
     /**
-     * [normalize_params description]
-     * @return [type] [description]
+     * Normaliaze a taxonomy parameters in accordance width WordPress Codex
      *
-     * @todo  PHPDoc
+     * @see  https://codex.wordpress.org/Function_Reference/register_taxonomy An official Codex page
+     * @since  1.0.0
      */
     protected function normalize_params() {
         if ( $this->hierarchical ) {
@@ -409,7 +409,8 @@ class Wellcrafted_Taxonomy {
     }
 
     /**
-     * Set all params to the object properties.
+     * Create taxonomy params for registering function
+     * 
      */
     protected function create_params() {
         $labels = [
@@ -454,7 +455,7 @@ class Wellcrafted_Taxonomy {
     }
 
     /**
-     * @todo  PHPDoc
+     * Register current class taxonomy
      */
     public function register_taxonomy() {
         register_taxonomy( $this->taxonomy, array($this->object_type), $this->taxonomy_params );
