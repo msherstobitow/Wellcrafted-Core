@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Wellcrafted_Admin_Post_Type extends Wellcrafted_Post_Type {
     /**
      * Controls how the type is visible to authors (show_in_nav_menus, show_ui) and readers (exclude_from_search, publicly_queryable).
+     * 
      * @see https://codex.wordpress.org/Function_Reference/register_post_type
      * @var boolean
      * @since  1.0.0
@@ -24,6 +25,7 @@ class Wellcrafted_Admin_Post_Type extends Wellcrafted_Post_Type {
 
     /**
      * Whether to generate a default UI for managing this post type in the admin. 
+     * 
      * @var boolean
      * @since  1.0.0
      */
@@ -31,6 +33,7 @@ class Wellcrafted_Admin_Post_Type extends Wellcrafted_Post_Type {
 
     /**
      * Whether to make this post type available in the WordPress admin bar. 
+     * 
      * @var boolean
      * @since  1.0.0
      */

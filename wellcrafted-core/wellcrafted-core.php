@@ -10,9 +10,21 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
+/**
+ * Wellcrafted Core initializer
+ * 
+ * @package Wellcrafted\Support
+ * @version  1.0.0
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
+/**
+ * Run Wellcrafted Core plugin
+ *
+ * @since  1.0.0
+ */
 require 'classes/core.php';

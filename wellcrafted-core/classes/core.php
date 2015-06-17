@@ -52,6 +52,7 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
      * Whether to use plugin's default styles
      * 
      * The style should be placed at ./assets/css/style.css
+     * 
      * @var boolean
      * @since  1.0.0
      */

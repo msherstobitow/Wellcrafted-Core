@@ -42,6 +42,7 @@ class Wellcrafted_Post_Type {
      * The menu name text. This string is the name to give menu items. Defaults to a value of 'name'. 
      * 
      * @var string
+     * @since  1.0.0
      */
     protected $menu_name_label = '';
 

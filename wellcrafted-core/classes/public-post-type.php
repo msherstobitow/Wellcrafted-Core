@@ -15,8 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Wellcrafted_Public_Post_Type extends Wellcrafted_Post_Type {
     /**
      * Controls how the type is visible to authors (show_in_nav_menus, show_ui) and readers (exclude_from_search, publicly_queryable).
+     * 
      * @see https://codex.wordpress.org/Function_Reference/register_post_type
      * @var boolean
+     * @since  1.0.0
      */
     protected $public = true;
 }

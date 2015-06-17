@@ -16,14 +16,18 @@ class Wellcrafted_Admin_Taxonomy extends Wellcrafted_Taxonomy {
     /**
      * True makes this taxonomy available for selection in navigation menus.
      * If not set, defaults to value of public argument 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_in_nav_menus = false;
 
     /**
      * Whether to allow the Tag Cloud widget to use this taxonomy. 
      * If not set, defaults to value of show_ui argument 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_tagcloud = false;
 }
