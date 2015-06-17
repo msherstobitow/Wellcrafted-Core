@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Wellcrafted_Singleton_Trait adds into a class Singleton pattern ability
+ * Wellcrafted_Singleton_Trait add into a class Singleton pattern ability
  * 
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0

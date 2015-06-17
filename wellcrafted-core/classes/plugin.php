@@ -25,6 +25,13 @@ class Wellcrafted_Plugin {
     protected $use_autoloader = true;
 
     /**
+     * Whether to use vendor autoloader for compaser packages.
+     * 
+     * @var boolean
+     */
+    protected $use_vendor = false;
+
+    /**
      * Whether to use plugin's default styles
      * 
      * The style should be placed at ./assets/css/style.css
@@ -112,6 +119,10 @@ class Wellcrafted_Plugin {
     public function __construct() {
         if ( $this->use_autoloader ) {
             $this->run_autoloader();
+        }
+
+        if ( $this->use_vendor ) {
+            $this->run_vendor_autoloader();
         }
 
         if ( $this->use_styles ) {
@@ -265,6 +276,13 @@ class Wellcrafted_Plugin {
                 }
             }
         });
+    }
+
+    protected function run_vendor_autoloader() {
+        $autoloader_path = __DIR__ . '/../vendor/autoload.php';
+        if ( file_exists( $autoloader_path ) ) {
+            require $autoloader_path;
+        }
     }
 
     /**
