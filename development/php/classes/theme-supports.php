@@ -18,7 +18,9 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * A list of theme supports.
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $supports = [];
 
@@ -28,6 +30,8 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * Add registered theme supports with params
+     * 
+     * @since  1.0.0
      */
     public function add_theme_supports() {
         foreach ( $this->supports as $support => $params ) {
@@ -37,7 +41,9 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * Register theme support for future using
+     * 
      * @param string $support A support name
+     * @since  1.0.0
      */
     public function register_support( $support ) {
         $this->supports[ $support ] = true;
@@ -45,9 +51,11 @@ class Wellcrafted_Theme_Supports {
 
     /**
      * Register a support with params
+     * 
      * @param  string $support Support name
      * @param  mixed $param   Param name
      * @param  string $value   Param value name; may be empty if support param is plain string
+     * @since  1.0.0
      */
     public function register_support_param( $support, $param, $value = '' ) {
         $this->register_support( $support );

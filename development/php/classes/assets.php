@@ -21,13 +21,17 @@ class Wellcrafted_Assets {
 
     /**
      * An array of styles options to link in both client and admin
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $wp_styles = array();
 
     /**
      * An array of scripts options to link in both client and admin
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $wp_scripts = array();
 
@@ -39,31 +43,41 @@ class Wellcrafted_Assets {
 
     /**
      * An array of scripts options to link in admin area
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $admin_scripts = array();
 
     /**
      * An array of scripts localizations options to link in admin area
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $admin_script_localizations = array();
 
     /**
      * Whether to use media assets in admin
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     private $use_media = false;
 
     /**
      * An array of inline styles options
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $inline_css = array();
 
     /**
      * An array of inline scripts options
+     * 
      * @var array
+     * @since  1.0.0
      */
     private $inline_js = array();
 
@@ -82,6 +96,8 @@ class Wellcrafted_Assets {
 
     /**
      * Set admin to use media assets
+     * 
+     * @since  1.0.0
      */
     public static function use_admin_media() {
         self::instance()->use_media = true;
@@ -100,6 +116,8 @@ class Wellcrafted_Assets {
      * @param string      $media  Optional. The media for which this stylesheet has been defined.
      *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
      *                            'screen', 'tty', or 'tv'.
+     *
+     * @since  1.0.0
      */
     public static function add_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         self::instance()->wp_styles[] = array(
@@ -124,6 +142,8 @@ class Wellcrafted_Assets {
      * @param string      $media  Optional. The media for which this stylesheet has been defined.
      *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
      *                            'screen', 'tty', or 'tv'.
+     *
+     * @since  1.0.0
      */
     public static function add_admin_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         if ( !in_array( 'wp-admin', $deps ) ) {
@@ -151,6 +171,8 @@ class Wellcrafted_Assets {
      * @param string      $media  Optional. The media for which this stylesheet has been defined.
      *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
      *                            'screen', 'tty', or 'tv'.
+     *
+     * @since  1.0.0
      */
     public static function add_common_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
         if ( is_admin() ) {
@@ -174,6 +196,8 @@ class Wellcrafted_Assets {
      *                            'screen', 'tty', or 'tv'.
      * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
      *                               Default 'false'. Accepts 'false' or 'true'.
+     *
+     * @since  1.0.0
      */
     public static function add_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
         self::instance()->wp_scripts[] = array(
@@ -199,6 +223,8 @@ class Wellcrafted_Assets {
      *                            'screen', 'tty', or 'tv'.
      * @param bool        $in_footer Optional. Whether to enqueue the script before </head> or before </body>.
      *                               Default 'false'. Accepts 'false' or 'true'.
+     *                               
+     * @since  1.0.0
      */
     public static function add_admin_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
         self::instance()->admin_scripts[] = [
@@ -222,6 +248,8 @@ class Wellcrafted_Assets {
      * @param string      $deps     Optional. The media for which this stylesheet has been defined.
      *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
      *                            'screen', 'tty', or 'tv'.
+     *                            
+     * @since  1.0.0
      */
     public static function add_footer_script( $handle, $src, $deps = array(), $ver = null ) {
         self::add_script( $handle, $src, $deps, $ver, true );
@@ -239,6 +267,8 @@ class Wellcrafted_Assets {
      * @param string      $deps     Optional. The media for which this stylesheet has been defined.
      *                            Default 'all'. Accepts 'all', 'aural', 'braille', 'handheld', 'projection', 'print',
      *                            'screen', 'tty', or 'tv'.
+     *                            
+     * @since  1.0.0
      */
     public static function add_admin_footer_script( $handle, $src, $deps = array(), $ver = null ) {
         self::add_admin_script( $handle, $src, $deps, $ver, true );
@@ -249,6 +279,8 @@ class Wellcrafted_Assets {
      * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
      *                            Example: '/[a-zA-Z0-9_]+/'.
      * @param array $data         The data itself. The data can be either a single or multi-dimensional array.
+     * 
+     * @since  1.0.0
      */
     public static function localize_admin_script( $handle, $object_name, $data ) {
         self::instance()->admin_script_localizations[] = [
@@ -261,6 +293,8 @@ class Wellcrafted_Assets {
 
     /**
      * Enqueue all queued assets
+     * 
+     * @since  1.0.0
      */
     public function enqueue_scripts() {
         if ( is_admin() ) {
@@ -295,7 +329,9 @@ class Wellcrafted_Assets {
     }
 
     /**
-     * Removes 'script' tags and print footer inline script.
+     * Remove 'script' tags and print footer inline script.
+     * 
+     * @since  1.0.0
      */
     public function wp_footer() {
         if ( isset( $this->inline_js ) ) {
@@ -306,7 +342,9 @@ class Wellcrafted_Assets {
 
     /**
      * Print a favicon link
+     * 
      * @todo A modern list of favicons links
+     * @since  1.0.0
      */
     public static function favicon() {
         $favicon_id = get_option( WELLCRAFTED . '_favicon' );

@@ -28,6 +28,7 @@ class Wellcrafted_Plugin {
      * Whether to use plugin's default styles
      * 
      * The style should be placed at ./assets/css/style.css
+     * 
      * @var boolean
      * @since  1.0.0
      */
@@ -49,6 +50,7 @@ class Wellcrafted_Plugin {
      * If not defined a wordpress plugin name will be used
      * 
      * @var null
+     * @since  1.0.0
      */
     protected $plugin_name = null;
 
@@ -56,19 +58,22 @@ class Wellcrafted_Plugin {
      * Define a plugin system name. It builds from sanitized plugin name. 
      * 
      * @var null
+     * @since  1.0.0
      */
     protected $plugin_system_name = null;
 
     /**
      * A plugin absolute path.
-     * 
+     *
+     * @var null
      * @since  1.0.0
      */
     protected $plugin_path = null;
 
     /**
      * A plugin folder URL.
-     * 
+     *
+     * @var null
      * @since  1.0.0
      */
     protected $plugin_url = null;
@@ -77,7 +82,8 @@ class Wellcrafted_Plugin {
      * A developer's support email. 
      * 
      * Any plugin based on Wellcrafted_Plugin class can use this property to add a support email address to be used in "Wellcrafted Support" plugin.
-     * 
+     *
+     * @var null
      * @since  1.0.0
      */
     protected $support_email = null;
@@ -86,7 +92,9 @@ class Wellcrafted_Plugin {
     /**
      * A variable to keep a Wellcrefted_Registry class in.
      * Note that each of child classes should define this variable to have a separate registry.
+     * 
      * @var null
+     * @since  1.0.0
      */
     protected static $registry = null;
     
@@ -94,7 +102,9 @@ class Wellcrafted_Plugin {
      * Whether a plugin should use registry.
      * Note that if a child class doesn't define static::$registry variable the plugin
      * will use common plugins registry
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected static $use_registry = true;
 
@@ -158,7 +168,6 @@ class Wellcrafted_Plugin {
      * Return a nice plugin's name
      * 
      * @return string Plugin's name
-     * 
      * @since  1.0.0
      */
     public function get_plugin_name() {
@@ -173,7 +182,6 @@ class Wellcrafted_Plugin {
      * Return a nice plugin's system name.
      * 
      * @return string Plugin's system name.
-     * 
      * @since  1.0.0
      */
     public function get_plugin_system_name() {
@@ -188,7 +196,6 @@ class Wellcrafted_Plugin {
      * Return a nice plugin's absolute path.
      * 
      * @return string Plugin's absolute path.
-     * 
      * @since  1.0.0
      */
     public function get_plugin_path() {
@@ -203,7 +210,6 @@ class Wellcrafted_Plugin {
      * Return a nice plugin's fiolder URL.
      * 
      * @return string Plugin's fiolder URL.
-     * 
      * @since  1.0.0
      */
     public function get_plugin_url() {
@@ -272,7 +278,9 @@ class Wellcrafted_Plugin {
 
     /**
      * Add plugin developer's support email(-s)
+     * 
      * @param array Registered developers' support emails
+     * @since  1.0.0
      */
     public function add_developer_support_email( $emails ) {
         if ( $this->support_email ) {

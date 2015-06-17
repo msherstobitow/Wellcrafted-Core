@@ -16,175 +16,231 @@ class Wellcrafted_Taxonomy {
 
     /**
      * The name of the taxonomy. Name should only contain lowercase letters and the underscore character, and not be more than 32 characters long (database structure restriction). 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $taxonomy = '';
 
     /**
      * Name of the object type for the taxonomy object. Object-types can be built-in Post Type or any Custom Post Type that may be registered. 
+     * 
      * @var string or array
+     * @since  1.0.0
      */
     protected $object_type = '';
     
     /**
      * A plural descriptive name for the taxonomy marked for translation. 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $label = '';
 
     /**
      * General name for the taxonomy, usually plural. The same as and overridden by $tax->label. Default is _x( 'Post Tags', 'taxonomy general name' ) or _x( 'Categories', 'taxonomy general name' ). When internationalizing this string, please use a gettext context matching your post type. Example: _x('Writers', 'taxonomy general name');
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $name_label = '';
     
     /**
      * Name for one object of this taxonomy. Default is _x( 'Post Tag', 'taxonomy singular name' ) or _x( 'Category', 'taxonomy singular name' ). When internationalizing this string, please use a gettext context matching your post type. Example: _x('Writer', 'taxonomy singular name');
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $singular_name_label = '';
     
     /**
      * The menu name text. This string is the name to give menu items. If not set, defaults to value of name label. 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $menu_name_label = '';
     
     /**
      * The all items text. Default is __( 'All Tags' ) or __( 'All Categories' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $all_items_label = '';
     
     /**
      * The edit item text. Default is __( 'Edit Tag' ) or __( 'Edit Category' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $edit_item_label = '';
     
     /**
      * The view item text, Default is __( 'View Tag' ) or __( 'View Category' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $view_item_label = '';
     
     /**
      * The update item text. Default is __( 'Update Tag' ) or __( 'Update Category' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $update_item_label = '';
     
     /**
      * The add new item text. Default is __( 'Add New Tag' ) or __( 'Add New Category' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $add_new_item_label = '';
     
     /**
      * The new item name text. Default is __( 'New Tag Name' ) or __( 'New Category Name' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $new_item_name_label = '';
     
     /**
      * The parent item text. This string is not used on non-hierarchical taxonomies such as post tags. Default is null or __( 'Parent Category' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $parent_item_label = '';
     
     /**
      * The same as parent_item, but with colon : in the end null, __( 'Parent Category:' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $parent_item_colon_label = '';
     
     /**
      * The search items text. Default is __( 'Search Tags' ) or __( 'Search Categories' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $search_items_label = '';
     
     /**
      * The popular items text. This string is not used on hierarchical taxonomies. Default is __( 'Popular Tags' ) or null 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $popular_items_label = '';
     
     /**
      * The separate item with commas text used in the taxonomy meta box. This string is not used on hierarchical taxonomies. Default is __( 'Separate tags with commas' ), or null 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $separate_items_with_commas_label = '';
     
     /**
      * The add or remove items text and used in the meta box when JavaScript is disabled. This string is not used on hierarchical taxonomies. Default is __( 'Add or remove tags' ) or null 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $add_or_remove_items_label = '';
     
     /**
      * The choose from most used text used in the taxonomy meta box. This string is not used on hierarchical taxonomies. Default is __( 'Choose from the most used tags' ) or null 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $choose_from_most_used_label = '';
     
     /**
      * The text displayed via clicking 'Choose from the most used tags' in the taxonomy meta box when no tags are available and (4.2+) - the text used in the terms list table when there are no items for a taxonomy. Default is __( 'No tags found.' ) or __( 'No categories found.' )
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $not_found_label = '';
     
     /**
      * If the taxonomy should be publicly queryable. 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $public = true;
     
     /**
      * Whether to generate a default UI for managing this taxonomy. 
      * If not set, defaults to value of public argument. As of 3.5, setting this to false for attachment taxonomies will hide the UI. 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_ui = null;
     
     /**
      * True makes this taxonomy available for selection in navigation menus.
      * If not set, defaults to value of public argument 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_in_nav_menus = null;
     
     /**
      * Whether to allow the Tag Cloud widget to use this taxonomy. 
      * If not set, defaults to value of show_ui argument 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_tagcloud = null;
     
     /**
      * Whether to show the taxonomy in the quick/bulk edit panel. (Available since 4.2) 
      * If not set, defaults to value of show_ui argument 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_in_quick_edit = null;
     
     /**
      * Provide a callback function name for the meta box display. (Available since 3.8) 
      * Defaults to the categories meta box (post_categories_meta_box() in meta-boxes.php) for hierarchical taxonomies and the tags meta box (post_tags_meta_box()) for non-hierarchical taxonomies. No meta box is shown if set to false. 
+     * 
      * @var null
+     * @since  1.0.0
      */
     protected $meta_box_cb = null;
     
     /**
      * Whether to allow automatic creation of taxonomy columns on associated post-types table. (Available since 3.5) 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $show_admin_column = false;
     
     /**
      * Is this taxonomy hierarchical (have descendants) like categories or not hierarchical like tags. 
      * Hierarchical taxonomies will have a list with checkboxes to select an existing category in the taxonomy admin box on the post edit page (like default post categories). Non-hierarchical taxonomies will just have an empty text field to type-in taxonomy terms to associate with the post (like default post tags). 
+     * 
      * @var boolean
+     * @since  1.0.0
      */
     protected $hierarchical = false;
     
@@ -192,14 +248,18 @@ class Wellcrafted_Taxonomy {
      * A function name that will be called when the count of an associated $object_type, such as post, is updated. Works much like a hook. 
      * While the default is '', when actually performing the count update in wp_update_term_count_now(), if the taxonomy is only attached to post types (as opposed to other WordPress objects, like user), the built-in _update_post_term_count() function will be used to count only published posts associated with that term, otherwise _update_generic_term_count() will be used instead, that does no such checking.
      * This is significant in the case of attachments. Because an attachment is a type of post, the default _update_post_term_count() will be used. However, this may be undesirable, because this will only count attachments that are actually attached to another post (like when you insert an image into a post). This means that attachments that you simply upload to WordPress using the Media Library, but do not actually attach to another post will not be counted. If your intention behind associating a taxonomy with attachments was to leverage the Media Library as a sort of Document Management solution, you are probably more interested in the counts of unattached Media items, than in those attached to posts. In this case, you should force the use of _update_generic_term_count() by setting '_update_generic_term_count' as the value for update_count_callback. 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $update_count_callback = '';
     
     /**
      * False to disable the query_var, set as string to use custom query_var instead of default which is $taxonomy, the taxonomy's "name". 
      * The query_var is used for direct queries through WP_Query like new WP_Query(array('people'=>$person_name)) and URL queries like /?people=$person_name. Setting query_var to false will disable these methods, but you can still fetch posts with an explicit WP_Query taxonomy query like WP_Query(array('taxonomy'=>'people', 'term'=>$person_name)). 
+     * 
      * @var string
+     * @since  1.0.0
      */
     protected $query_var = null;
     
@@ -210,7 +270,9 @@ class Wellcrafted_Taxonomy {
      *     'hierarchical' - true or false allow hierarchical urls (implemented in Version 3.1) - defaults to false
      *     'ep_mask' - (Required for pretty permalinks) Assign an endpoint mask for this taxonomy - defaults to EP_NONE. If you do not specify the EP_MASK, pretty permalinks will not work. For more info see this Make WordPress Plugins summary of endpoints.
      *     You may need to flush the rewrite rules after changing this. You can do it manually by going to the Permalink Settings page and re-saving the rules -- you don't need to change them -- or by calling $wp_rewrite->flush_rules(). You should only flush the rules once after the taxonomy has been created, not every time the plugin/theme loads.
+     * 
      * @var boolean or array
+     * @since  1.0.0
      */
     protected $rewrite = true;
     
@@ -220,19 +282,25 @@ class Wellcrafted_Taxonomy {
      *    'edit_terms' - 'manage_categories'
      *    'delete_terms' - 'manage_categories'
      *    'assign_terms' - 'edit_posts'
+     * 
      * @var array
+     * @since  1.0.0
      */
     protected $capabilities = [];
     
     /**
      * Whether this taxonomy should remember the order in which terms are added to objects. 
+     * 
      * @var null
+     * @since  1.0.0
      */
     protected $sort = null;
 
     /**
      * Avoiding the following reserved terms is particularly important if you are passing the term through the $_GET or $_POST array. Doing so can cause WordPress to respond with a 404 error without any other hint or explanation. 
+     * 
      * @var array
+     * @since  1.0.0
      */
     protected static $reserved_terms = [
         'attachment',
@@ -318,7 +386,9 @@ class Wellcrafted_Taxonomy {
 
     /**
      * Taxonomy params array.
+     * 
      * @var array
+     * @since  1.0.0
      */
     protected $taxonomy_params = [];
 
@@ -350,12 +420,15 @@ class Wellcrafted_Taxonomy {
 
     /**
      * Init function for child classes
-     * @return [type] [description]
+     * 
+     * @since  1.0.0
      */
     protected function init() {}
 
     /**
      * Allows to set params before normalizing
+     * 
+     * @since  1.0.0
      */
     protected function set_params() {}
 
@@ -411,6 +484,7 @@ class Wellcrafted_Taxonomy {
     /**
      * Create taxonomy params for registering function
      * 
+     * @since  1.0.0
      */
     protected function create_params() {
         $labels = [
@@ -456,6 +530,8 @@ class Wellcrafted_Taxonomy {
 
     /**
      * Register current class taxonomy
+     * 
+     * @since  1.0.0
      */
     public function register_taxonomy() {
         register_taxonomy( $this->taxonomy, array($this->object_type), $this->taxonomy_params );
