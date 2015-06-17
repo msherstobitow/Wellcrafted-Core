@@ -12,9 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 /**
- * @todo PHPDoc
+ * Check if a particular function is disabled for current environment.
+ * 
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0
+ * @since  1.0.0
  * @package Wellcrafted\Core
  */
 function wellcrafted_is_function_disabled( $function_name ) {

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Wellcrafted_Registry {
 
     /**
-     * An array to caontain a registry data
+     * An array to cantain a registry data
      * @var array
      * @since  1.0.0
      */

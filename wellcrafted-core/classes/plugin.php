@@ -85,7 +85,9 @@ class Wellcrafted_Plugin {
 
     /**
      * A variable to keep a Wellcrefted_Registry class in.
+     * 
      * Note that each of child classes should define this variable to have a separate registry.
+     * 
      * @var null
      */
     protected static $registry = null;

@@ -16,12 +16,14 @@ class Wellcrafted_Taxonomy {
 
     /**
      * The name of the taxonomy. Name should only contain lowercase letters and the underscore character, and not be more than 32 characters long (database structure restriction). 
+     * 
      * @var string
      */
     protected $taxonomy = '';
 
     /**
      * Name of the object type for the taxonomy object. Object-types can be built-in Post Type or any Custom Post Type that may be registered. 
+     * 
      * @var string or array
      */
     protected $object_type = '';
@@ -177,6 +179,7 @@ class Wellcrafted_Taxonomy {
     
     /**
      * Whether to allow automatic creation of taxonomy columns on associated post-types table. (Available since 3.5) 
+     * 
      * @var boolean
      */
     protected $show_admin_column = false;
