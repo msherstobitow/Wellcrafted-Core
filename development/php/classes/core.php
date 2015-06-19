@@ -29,24 +29,24 @@ require $wellcrafted_function_path . 'mail.php';
 class Wellcrafted_Core extends Wellcrafted_Plugin {
 
     /**
-     * Whether to use plugin's default styles
+     * Whether to use plugin's style on backend
      * 
-     * The style should be placed at ./assets/css/style.css
+     * The style should be placed at ./assets/css/admin-style.css
      * 
      * @var boolean
      * @since  1.0.0
      */
-    protected $use_styles = true;
+    protected $use_admin_style = true;
 
     /**
-     * Whether to use plugin's default scripts
+     * Whether to use plugin's script on both backend and frontend
      * 
-     * The script should be placed at ./assets/javascript/script.js
+     * The script should be placed at ./assets/javascript/admin-script.js
      * 
      * @var boolean
      * @since  1.0.0
      */
-    protected $use_scripts = true;
+    protected $use_admin_script = true;
 
     /**
      * Contain aplugin's own registry.
