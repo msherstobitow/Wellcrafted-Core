@@ -279,6 +279,19 @@ class Wellcrafted_Post_Type {
     /**
      * An alias for calling add_post_type_support() directly. As of 3.5, boolean false can be passed as value instead of an array to prevent default (title and editor) behavior. 
      * 
+     * Avaialble supports:
+     *     'title'
+     *     'editor' (content)
+     *     'author'
+     *     'thumbnail' (featured image, current theme must also support post-thumbnails https://codex.wordpress.org/Post_Thumbnails)
+     *     'excerpt'
+     *     'trackbacks'
+     *     'custom-fields'
+     *     'comments' (also will see comment count balloon on edit screen)
+     *     'revisions' (will store revisions)
+     *     'page-attributes' (menu order, hierarchical must be true to show Parent option)
+     *     'post-formats' add post formats, see Post Formats https://codex.wordpress.org/Post_Formats
+     * 
      * @var array
      * @since  1.0.0
      */
@@ -367,12 +380,13 @@ class Wellcrafted_Post_Type {
          *
          * @see https://codex.wordpress.org/Function_Reference/register_post_type An official Codex page.
          */
-        $this->post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 32 );
+        $this->post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 20 );
 
         if ( null == $this->post_type || 
             in_array( $this->post_type, self::$reserved_post_types ) ) {
             return;
         }
+
 
         $this->set_params();
         $this->normalize_params();
@@ -394,6 +408,7 @@ class Wellcrafted_Post_Type {
 
         $this->init();
         $this->_localize_script();
+
     }
 
     /**
@@ -410,6 +425,7 @@ class Wellcrafted_Post_Type {
                 if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow ) {
                     global $post_type;
                 }
+
                 if ( isset( $post_type ) ) {
                     Wellcrafted_Assets::localize_admin_script(
                         Wellcrafted_Core::registry()->plugin_system_name . '_base_admin_script', 
@@ -438,7 +454,9 @@ class Wellcrafted_Post_Type {
      * @param  array $columns columns to show
      * @since  1.0.0
      */
-    public function modify_columns( $columns ) {}
+    public function modify_columns( $columns ) {
+        return $columns;
+    }
 
     /**
      * Allows to edit columns data
@@ -446,7 +464,9 @@ class Wellcrafted_Post_Type {
      * @param  array $columns columns to show
      * @since  1.0.0
      */
-    public function edit_column( $column, $post_id ) {}
+    public function edit_column( $column, $post_id ) {
+        return $column;
+    }
 
     /**
      * Allows to set params before normalizing
@@ -467,6 +487,7 @@ class Wellcrafted_Post_Type {
         $this->menu_name_label = $this->menu_name_label ? $this->menu_name_label : $this->name_label;
         $this->name_admin_bar_label = $this->name_admin_bar_label ? $this->name_admin_bar_label : $this->singular_name_label;
         $this->all_items_label = $this->all_items_label ? $this->all_items_label : $this->name_label;
+        $this->view_item_label = '' !== $this->view_item_label ? $this->view_item_label : __( 'View', WELLCRAFTED );
         $this->show_ui = null !== $this->show_ui ? $this->show_ui : $this->public;
         $this->show_in_nav_menus = null !== $this->show_ui ? $this->show_in_nav_menus : $this->public;
         $this->show_in_menu = null !== $this->show_in_menu ? $this->show_in_menu : $this->show_ui;
@@ -520,6 +541,7 @@ class Wellcrafted_Post_Type {
             'show_in_nav_menus' => $this->show_in_nav_menus,
             'show_in_menu' => $this->show_in_menu,
             'show_in_admin_bar' => $this->show_in_admin_bar,
+            'menu_icon' => $this->menu_icon,
             'menu_position ' => $this->menu_position,
             'capability_type' => $this->capability_type,
             'capabilities' => $this->capabilities,
@@ -547,9 +569,10 @@ class Wellcrafted_Post_Type {
      * @since  1.0.0
      */
     private function add_theme_support() {
-        if ( is_array( $this->post_type_params[ 'supports' ] ) &&
-            in_array( 'thumbnail', $this->post_type_params[ 'supports' ] ) ) {
-            Wellcrafted_Theme_Supports::instance()->register_support_param( 'post-thumbnails', $this->post_type );
+        if ( is_array( $this->post_type_params[ 'supports' ] ) ) {
+            if ( in_array( 'thumbnail', $this->post_type_params[ 'supports' ] ) ) {
+                Wellcrafted_Theme_Supports::instance()->register_support_param( 'post-thumbnails', $this->post_type );
+            }
         }
     }
 
