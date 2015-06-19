@@ -32,24 +32,64 @@ class Wellcrafted_Plugin {
     protected $use_vendor = false;
 
     /**
-     * Whether to use plugin's default styles
+     * Whether to use plugin's style on frontend
      * 
      * The style should be placed at ./assets/css/style.css
      * 
      * @var boolean
      * @since  1.0.0
      */
-    protected $use_styles = false;
+    protected $use_style = false;
 
     /**
-     * Whether to use plugin's default scripts
+     * Whether to use plugin's script on frontend
      * 
      * The script should be placed at ./assets/javascript/script.js
      * 
      * @var boolean
      * @since  1.0.0
      */
-    protected $use_scripts = false;
+    protected $use_script = false;
+
+    /**
+     * Whether to use plugin's style on backend
+     * 
+     * The style should be placed at ./assets/css/admin-style.css
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_admin_style = false;
+
+    /**
+     * Whether to use plugin's script on both backend and frontend
+     * 
+     * The script should be placed at ./assets/javascript/admin-script.js
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_admin_script = false;
+
+    /**
+     * Whether to use plugin's style on both backend and frontend
+     * 
+     * The style should be placed at ./assets/css/common-style.css
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_common_style = false;
+
+    /**
+     * Whether to use plugin's script on backend
+     * 
+     * The script should be placed at ./assets/javascript/common-script.js
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_common_script = false;
 
     /**
      * Define a plugin name.
@@ -115,6 +155,24 @@ class Wellcrafted_Plugin {
      */
     protected static $use_registry = true;
 
+    /**
+     * A template loader for plugin.
+     *
+     * Plugin's templates can be overriden if placed in theme/wellcrafted/plugin-system-name/templates/ folder.
+     * 
+     * @var null
+     * @since  1.0.0
+     */
+    protected $template_loader = null;
+
+    /**
+     * Whether to use template loader
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_template_loader = false;
+
 
     public function __construct() {
         if ( $this->use_autoloader ) {
@@ -125,20 +183,12 @@ class Wellcrafted_Plugin {
             $this->run_vendor_autoloader();
         }
 
-        if ( $this->use_styles ) {
-            Wellcrafted_Assets::add_admin_style( 
-                $this->get_plugin_system_name() . '_base_admin_style', 
-                $this->get_plugin_url() . 'assets/css/style.css'
-            );
-        }
+        $this->init_assets();
 
-        if ( $this->use_scripts ) {
-            Wellcrafted_Assets::add_admin_footer_script( 
-                $this->get_plugin_system_name() . '_base_admin_script', 
-                $this->get_plugin_url() . 'assets/javascript/script.js',
-                array( 'jquery' )
-            );
+        if ( $this->use_template_loader ) {
+            $this->init_template_loader();
         }
+        
 
         $this->connect_to_support_plugin();
     }
@@ -239,6 +289,69 @@ class Wellcrafted_Plugin {
     protected static function init_registry() {
         static::$registry = new Wellcrafted_Registry();
     }
+
+
+    /**
+     * Init plugin assets.
+     *
+     * Plugin can have separate admin, client and common assets.
+     */
+    protected function init_assets() {
+        if ( is_admin() ) {
+            if ( $this->use_admin_style ) {
+                Wellcrafted_Assets::add_admin_style( 
+                    $this->get_plugin_system_name() . '_base_admin_style', 
+                    $this->get_plugin_url() . 'assets/css/admin-style.css'
+                );
+            }
+
+            if ( $this->use_admin_script ) {
+                Wellcrafted_Assets::add_admin_footer_script( 
+                    $this->get_plugin_system_name() . '_base_admin_script', 
+                    $this->get_plugin_url() . 'assets/javascript/admin-script.js',
+                    array( 'jquery' )
+                );
+            }
+        } else {
+            if ( $this->use_style ) {
+                Wellcrafted_Assets::add_style( 
+                    $this->get_plugin_system_name() . '_base_style', 
+                    $this->get_plugin_url() . 'assets/css/style.css'
+                );
+            }
+
+            if ( $this->use_script ) {
+                Wellcrafted_Assets::add_footer_script( 
+                    $this->get_plugin_system_name() . '_base_script', 
+                    $this->get_plugin_url() . 'assets/javascript/script.js',
+                    array( 'jquery' )
+                );
+            }
+        }
+
+        if ( $this->use_common_style ) {
+            Wellcrafted_Assets::add_common_style( 
+                $this->get_plugin_system_name() . '_base_common_style', 
+                $this->get_plugin_url() . 'assets/css/common-style.css'
+            );
+        }
+
+        if ( $this->use_common_script ) {
+            Wellcrafted_Assets::add_common_footer_script( 
+                $this->get_plugin_system_name() . '_base_common_script', 
+                $this->get_plugin_url() . 'assets/javascript/common-script.js',
+                array( 'jquery' )
+            );
+        }
+    }
+
+    /**
+     * Init template loader object.
+     */
+    protected function init_template_loader() {
+        $this->template_loader = new Wellcrafted_Plugin_Template_Loader( $this->get_plugin_system_name() );
+    }
+
 
     /**
      * Return plugin's registry to get regisry's stored data
