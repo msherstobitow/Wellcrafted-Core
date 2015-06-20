@@ -27,8 +27,7 @@ class Wellcrafted_Plugin_Template_Loader {
      * @return string
      */
     public static function template_loader( $template ) {
-        var_dump($template);
-        exit;
+        return $template;
         $find = array( 'woocommerce.php' );
         $file = '';
 
