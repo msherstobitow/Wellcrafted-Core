@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Load a Plugin class
  */
 require 'plugin.php';
+require '../traits/singleton.php';
 
 /**
  * Require functions
@@ -17,6 +18,8 @@ $wellcrafted_function_path = dirname( __FILE__ ) . '/../functions/';
 require $wellcrafted_function_path . 'system.php';
 require $wellcrafted_function_path . 'arrays.php';
 require $wellcrafted_function_path . 'mail.php';
+require $wellcrafted_function_path . 'hooks.php';
+require $wellcrafted_function_path . 'thumbnails.php';
 
 /**
  * Wellcrafted_Core is a base framework class.
@@ -27,6 +30,13 @@ require $wellcrafted_function_path . 'mail.php';
  * @package Wellcrafted\Core
  */
 class Wellcrafted_Core extends Wellcrafted_Plugin {
+
+    /**
+     * Add into a class Singleton pattern ability
+     *
+     * @since  1.0.0
+     */
+    use Wellcrafted_Singleton_Trait;
 
     /**
      * Whether to use plugin's style on backend
