@@ -257,7 +257,7 @@ class Wellcrafted_Post_Type {
      * @var array
      * @since  1.0.0
      */
-    protected $taxonomies = array();
+    protected $taxonomies = [];
     
     /**
      * The url to the icon to be used for this menu or the name of the icon from the iconfont
@@ -303,7 +303,7 @@ class Wellcrafted_Post_Type {
      * @var array
      * @since  1.0.0
      */
-    protected $extra_supports = array();
+    protected $extra_supports = [];
 
     /**
      * Triggers the handling of rewrites for this post type. To prevent rewrites, set to false. 
@@ -327,7 +327,7 @@ class Wellcrafted_Post_Type {
      * @var array
      * @since  1.0.0
      */
-    protected $post_type_params = array();
+    protected $post_type_params = [];
 
     /**
      * Whether to use meta boxes with this post type
@@ -554,7 +554,7 @@ class Wellcrafted_Post_Type {
         $this->capabilities = null !== $this->capabilities ? $this->capabilities : $this->post_type;
 
         if ( !is_array( $this->extra_supports ) ) {
-            $this->extra_supports = array();
+            $this->extra_supports = [];
         }
 
         $this->supports = array_merge( $this->supports, $this->extra_supports );

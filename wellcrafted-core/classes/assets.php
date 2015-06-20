@@ -25,7 +25,7 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $wp_styles = array();
+    private $wp_styles = [];
 
     /**
      * An array of scripts options to link in both client and admin
@@ -33,13 +33,13 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $wp_scripts = array();
+    private $wp_scripts = [];
 
     /**
      * An array of styles options to link in admin area
      * @var array
      */
-    private $admin_styles = array();
+    private $admin_styles = [];
 
     /**
      * An array of scripts options to link in admin area
@@ -47,7 +47,7 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $admin_scripts = array();
+    private $admin_scripts = [];
 
     /**
      * An array of scripts localizations options to link in admin area
@@ -55,7 +55,7 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $admin_script_localizations = array();
+    private $admin_script_localizations = [];
 
     /**
      * Whether to use media assets in admin
@@ -71,7 +71,7 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $inline_css = array();
+    private $inline_css = [];
 
     /**
      * An array of inline scripts options
@@ -79,7 +79,7 @@ class Wellcrafted_Assets {
      * @var array
      * @since  1.0.0
      */
-    private $inline_js = array();
+    private $inline_js = [];
 
     public function __construct() {
 
@@ -87,10 +87,10 @@ class Wellcrafted_Assets {
         $this->inline_js = get_option( WELLCRAFTED . '_asset_inline_js', '' );
 
         if ( is_admin() ) {
-            add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
+            add_action( 'admin_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
         } else {
-            add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
-            add_action( 'wp_footer', array( &$this, 'wp_footer' ) );
+            add_action( 'wp_enqueue_scripts', [ &$this, 'enqueue_scripts' ] );
+            add_action( 'wp_footer', [ &$this, 'wp_footer' ] );
         }
     }
 
@@ -119,14 +119,14 @@ class Wellcrafted_Assets {
      *
      * @since  1.0.0
      */
-    public static function add_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
-        self::instance()->wp_styles[] = array(
+    public static function add_style( $handle, $src, $deps = [], $ver = null, $media = null ) {
+        self::instance()->wp_styles[] = [
             'handle' => $handle,
             'src' => $src,
             'deps' => $deps,
             'ver' => $ver,
             'media' => $media,
-        );
+        ];
     }
 
 
@@ -145,18 +145,18 @@ class Wellcrafted_Assets {
      *
      * @since  1.0.0
      */
-    public static function add_admin_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
+    public static function add_admin_style( $handle, $src, $deps = [], $ver = null, $media = null ) {
         if ( !in_array( 'wp-admin', $deps ) ) {
             $deps[] = 'wp-admin';
         }
 
-        self::instance()->admin_styles[] = array(
+        self::instance()->admin_styles[] = [
             'handle' => $handle,
             'src' => $src,
             'deps' => $deps,
             'ver' => $ver,
             'media' => $media,
-        );
+        ];
     }
 
     /**
@@ -174,7 +174,7 @@ class Wellcrafted_Assets {
      *
      * @since  1.0.0
      */
-    public static function add_common_style( $handle, $src, $deps = array(), $ver = null, $media = null ) {
+    public static function add_common_style( $handle, $src, $deps = [], $ver = null, $media = null ) {
         if ( is_admin() ) {
             self::add_admin_style( $handle, $src, $deps, $ver, $media );
         } else {
@@ -199,14 +199,14 @@ class Wellcrafted_Assets {
      *
      * @since  1.0.0
      */
-    public static function add_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
-        self::instance()->wp_scripts[] = array(
+    public static function add_script( $handle, $src, $deps = [], $ver = null, $in_footer = false ) {
+        self::instance()->wp_scripts[] = [
             'handle' => $handle,
             'src' => $src,
             'deps' => $deps,
             'ver' => $ver,
             'in_footer' => ( bool )$in_footer,
-        );
+        ];
     }
 
     /**
@@ -226,7 +226,7 @@ class Wellcrafted_Assets {
      *                               
      * @since  1.0.0
      */
-    public static function add_admin_script( $handle, $src, $deps = array(), $ver = null, $in_footer = false ) {
+    public static function add_admin_script( $handle, $src, $deps = [], $ver = null, $in_footer = false ) {
         self::instance()->admin_scripts[] = [
             'handle' => $handle,
             'src' => $src,
@@ -251,7 +251,7 @@ class Wellcrafted_Assets {
      *                            
      * @since  1.0.0
      */
-    public static function add_footer_script( $handle, $src, $deps = array(), $ver = null ) {
+    public static function add_footer_script( $handle, $src, $deps = [], $ver = null ) {
         self::add_script( $handle, $src, $deps, $ver, true );
     }
 
@@ -270,7 +270,7 @@ class Wellcrafted_Assets {
      *                            
      * @since  1.0.0
      */
-    public static function add_admin_footer_script( $handle, $src, $deps = array(), $ver = null ) {
+    public static function add_admin_footer_script( $handle, $src, $deps = [], $ver = null ) {
         self::add_admin_script( $handle, $src, $deps, $ver, true );
     }
 

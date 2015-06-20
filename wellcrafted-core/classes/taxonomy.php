@@ -534,7 +534,7 @@ class Wellcrafted_Taxonomy {
      * @since  1.0.0
      */
     public function register_taxonomy() {
-        register_taxonomy( $this->taxonomy, array($this->object_type), $this->taxonomy_params );
+        register_taxonomy( $this->taxonomy, [ $this->object_type ], $this->taxonomy_params );
         self::$reserved_terms[] = $this->taxonomy;
     }
 

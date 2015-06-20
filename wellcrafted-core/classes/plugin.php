@@ -309,7 +309,7 @@ class Wellcrafted_Plugin {
                 Wellcrafted_Assets::add_admin_footer_script( 
                     $this->get_plugin_system_name() . '_base_admin_script', 
                     $this->get_plugin_url() . 'assets/javascript/admin-script.js',
-                    array( 'jquery' )
+                    [ 'jquery' ]
                 );
             }
         } else {
@@ -324,7 +324,7 @@ class Wellcrafted_Plugin {
                 Wellcrafted_Assets::add_footer_script( 
                     $this->get_plugin_system_name() . '_base_script', 
                     $this->get_plugin_url() . 'assets/javascript/script.js',
-                    array( 'jquery' )
+                    [ 'jquery' ]
                 );
             }
         }
@@ -340,7 +340,7 @@ class Wellcrafted_Plugin {
             Wellcrafted_Assets::add_common_footer_script( 
                 $this->get_plugin_system_name() . '_base_common_script', 
                 $this->get_plugin_url() . 'assets/javascript/common-script.js',
-                array( 'jquery' )
+                [ 'jquery' ]
             );
         }
     }

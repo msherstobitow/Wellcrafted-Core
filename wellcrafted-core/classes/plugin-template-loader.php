@@ -17,7 +17,7 @@ class Wellcrafted_Plugin_Template_Loader {
     protected $templates_folder = '';
 
     public function __construct( $plugin_system_name ) {
-        add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
+        add_filter( 'template_include', [ __CLASS__, 'template_loader' ] );
     }
 
     /**
