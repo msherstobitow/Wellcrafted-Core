@@ -295,7 +295,7 @@ class Wellcrafted_Post_Type {
      * @var array
      * @since  1.0.0
      */
-    protected $supports = array( 'title', 'editor' );
+    protected $supports = [ 'title', 'editor' ];
     
     /**
      * Adds extra supports to defaults
@@ -336,6 +336,14 @@ class Wellcrafted_Post_Type {
      * @since  1.0.0
      */
     protected $use_meta_boxes = false;
+
+    /**
+     * Whether to use a featured image column. It will be shown if a post type supports thumbnails.
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $use_thumbnail_column = true;
 
     /**
      * A key for a post type meta boxes nonce
@@ -397,13 +405,29 @@ class Wellcrafted_Post_Type {
             return;
         }
 
-        add_action( 'wellcrafted_core_register_post_types', array( &$this, 'register_post_type' ) );
-        add_action( 'manage_' . $this->post_type . '_posts_columns' , array( &$this, 'modify_columns') );
-        add_filter( 'manage_' . $this->post_type . '_posts_custom_column', array( &$this, 'edit_column'), 10, 2 );
+        add_action( 'wellcrafted_core_register_post_types', [ &$this, 'register_post_type' ] );
+
+        wellcrafted_add_action( 
+            'manage_' . $this->post_type . '_posts_columns' , 
+            [
+                [ &$this, 'modify_columns' ], 
+                [ &$this, 'add_thumbnail_column' ], 
+            ]
+        );
+
+        wellcrafted_add_filter( 
+            'manage_' . $this->post_type . '_posts_custom_column', 
+            [ 
+                [ &$this, 'edit_column' ],
+                [ &$this, 'add_thumbnail_column_image' ],
+            ],
+            10,
+            2
+        );
 
         if ( $this->use_meta_boxes ) {
-            add_action( 'add_meta_boxes', array( &$this, 'add_meta_boxes' ) );
-            add_action( 'save_post', array( &$this, 'pre_save_meta_boxes_data' ) );
+            add_action( 'add_meta_boxes', [ &$this, 'add_meta_boxes' ] );
+            add_action( 'save_post', [ &$this, 'pre_save_meta_boxes_data'] );
         }
 
         $this->init();
@@ -458,13 +482,46 @@ class Wellcrafted_Post_Type {
         return $columns;
     }
 
+    public function add_thumbnail_column( $columns ) {
+        if ( in_array( 'thumbnail', $this->supports ) ) {
+            return wellcrafted_insert_to_array( 
+                $columns, 
+                'title', 
+                [ WELLCRAFTED . '_featured_image' => __( 'Thumbnail', WELLCRAFTED ) ],
+                true
+            );
+        }
+
+        return $columns;
+    }
+
     /**
      * Allows to edit columns data
      * 
-     * @param  array $columns columns to show
+     * @param  array    $column column to show
+     * @param  int      $post_id An ID of a post 
+     * @return array $column
      * @since  1.0.0
      */
     public function edit_column( $column, $post_id ) {
+        return $column;
+    }
+
+    /**
+     * Allows to edit columns data
+     * 
+     * @param  array    $column column to show
+     * @param  int      $post_id An ID of a post 
+     * @return array $column
+     * @since  1.0.0
+     */
+    public function add_thumbnail_column_image( $column, $post_id ) {
+        if ( WELLCRAFTED . '_featured_image' === $column ) {
+            $image = wellcrafted_get_featured_image_src( $post_id );
+            if ( $image ) {
+                require Wellcrafted_Core::instance()->get_plugin_path() . '/views/thumbnail_column_image.php';
+            }
+        }
         return $column;
     }
 

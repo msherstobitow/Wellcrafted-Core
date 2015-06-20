@@ -37,6 +37,7 @@ function wellcrafted_array_value( $array, $key, $default = '' ) {
  * @param  array                $array      Array to insert in
  * @param  integer or string    $position   An integer or a string key position to insert after
  * @param  array                $insert     An array to insert
+ * @param  boolean              $before     Should an item be instrted before a position. It works only on non-integer position.
  * @return array                            Modified array
  *
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
@@ -45,13 +46,17 @@ function wellcrafted_array_value( $array, $key, $default = '' ) {
  * @package Wellcrafted\Core
  * 
  */
-function wellcrafted_insert_to_array( $array, $position, $insert ) {
+function wellcrafted_insert_to_array( $array, $position, $insert, $before = false ) {
     if ( ! is_array( $array ) ) {
         return $array;
     }
 
     if ( ! is_int( $position ) ) {
-        $position = (int)array_search( $position, array_keys( $array ) ) + 1;
+        $position = (int)array_search( $position, array_keys( $array ) ) ;
+
+        if ( ! $before ) {
+            $position++;
+        }
     }
 
     $array = array_merge(
