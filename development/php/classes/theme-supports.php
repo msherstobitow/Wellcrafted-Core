@@ -25,7 +25,7 @@ class Wellcrafted_Theme_Supports {
     private $supports = [];
 
     public function __construct() {
-        add_action( 'after_setup_theme', array( &$this, 'add_theme_supports' ) );
+        add_action( 'after_setup_theme', [ &$this, 'add_theme_supports' ] );
     }
 
     /**
