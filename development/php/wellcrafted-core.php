@@ -70,5 +70,26 @@ function wellcrafted_php_version_admin_notices() {
 register_activation_hook( __FILE__, 'wellcrafted_check_php_version' );
 
 if ( wellcrafted_check_php_version() ) {
-    require 'classes/core.php';
+    $wellcrafted_root_path = dirname( __FILE__ );
+    
+    /**
+     * Load a Plugin class
+     */
+    require $wellcrafted_root_path . '/wellcrafted/core/plugin.php';
+    require $wellcrafted_root_path . '/wellcrafted/core/registry.php';
+
+    /**
+     * Load singleton trait
+     */
+    require $wellcrafted_root_path . '/wellcrafted/core/traits/singleton.php';
+
+    /**
+     * Require functions
+     */
+    require $wellcrafted_root_path . '/functions/system.php';
+    require $wellcrafted_root_path . '/functions/arrays.php';
+    require $wellcrafted_root_path . '/functions/mail.php';
+    require $wellcrafted_root_path . '/functions/hooks.php';
+    require $wellcrafted_root_path . '/functions/thumbnails.php';
+    require $wellcrafted_root_path . '/wellcrafted/core/core.php';
 }
