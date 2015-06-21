@@ -1,1 +1,1 @@
-(function( $ ) {  })( jQuery );
+(function( $ ) { alert(32); })( jQuery );

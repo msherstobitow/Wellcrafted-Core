@@ -1,5 +1,7 @@
 <?php
 
+namespace Wellcrafted\Core\Traits;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -13,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Wellcrafted\Core
  * @see https://en.wikipedia.org/wiki/Singleton_pattern
  */
-trait Wellcrafted_Singleton_Trait {
+trait Singleton {
 
     /**
      * Create an instance of a class object (if not initialized) and return 

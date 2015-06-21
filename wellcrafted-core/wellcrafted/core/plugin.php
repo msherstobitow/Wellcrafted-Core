@@ -1,5 +1,7 @@
 <?php
 
+namespace Wellcrafted\Core;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -12,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Plugin {
+class Plugin {
     /**
      * Whether a plugin should use its own autoloader.
      *
@@ -173,6 +175,14 @@ class Wellcrafted_Plugin {
      */
     protected $use_template_loader = false;
 
+    /**
+     * All installed WordPress plugins data.
+     * 
+     * @var null
+     * @since  1.0.0
+     */
+    protected static $all_plugins_data = null;
+
 
     public function __construct() {
         if ( $this->use_autoloader ) {
@@ -186,7 +196,10 @@ class Wellcrafted_Plugin {
         $this->init_assets();
 
         if ( $this->use_template_loader ) {
-            $this->init_template_loader();
+            /**
+             * @todo add filter for templates rules
+             */
+            //$this->init_template_loader();
         }
         
 
@@ -199,30 +212,29 @@ class Wellcrafted_Plugin {
      * @since  1.0.0
      */
     private function init_parameters() {
-        $reflector = new ReflectionClass( $this );
+        $reflector = new \ReflectionClass( $this );
         $filename = $reflector->getFileName();
         $dirname = dirname( $filename );
+        $folder_name = reset( explode( DIRECTORY_SEPARATOR, trim( str_replace( WP_PLUGIN_DIR, '', $dirname ), DIRECTORY_SEPARATOR ) ) );
+        $this->plugin_system_name = self::registry()->plugin_system_name = $folder_name . '/' . $folder_name . '.php';
+        $this->plugin_url = plugin_dir_url( WP_PLUGIN_DIR . '/' . $this->plugin_system_name );
+        $this->plugin_path = WP_PLUGIN_DIR . '/' . $folder_name . '/';
 
         if ( ! $this->plugin_name ) {
-            $plugin_folder_name = basename( dirname( $dirname ) );
-            $plugin_wp_key = $plugin_folder_name . '/' . $plugin_folder_name . '.php';
+            $this->plugin_name = $this->all_plugins_data()[ $this->plugin_system_name ][ 'Name' ];
+        }
 
+    }
+
+    protected function all_plugins_data() {
+        if ( null === self::$all_plugins_data ) {
             if ( ! function_exists( 'get_plugins' ) ) {
                 require_once ABSPATH . 'wp-admin/includes/plugin.php';
             }
-
-            $all_plugins = get_plugins();
-
-            $this->plugin_name = $all_plugins[ $plugin_wp_key ][ 'Name' ];
+            self::$all_plugins_data = get_plugins();
         }
 
-
-        $this->plugin_system_name = sanitize_title( $this->plugin_name );
-        $this->plugin_path = realpath( $dirname . '/../' );
-        $this->plugin_url = plugin_dir_url( $dirname );
-
-        self::registry()->plugin_system_name = $this->plugin_system_name;
-
+        return self::$all_plugins_data;
     }
 
     /**
@@ -287,7 +299,7 @@ class Wellcrafted_Plugin {
      * @since  1.0.0
      */
     protected static function init_registry() {
-        static::$registry = new Wellcrafted_Registry();
+        static::$registry = new Registry();
     }
 
 
@@ -299,14 +311,14 @@ class Wellcrafted_Plugin {
     protected function init_assets() {
         if ( is_admin() ) {
             if ( $this->use_admin_style ) {
-                Wellcrafted_Assets::add_admin_style( 
+                Assets::add_admin_style( 
                     $this->get_plugin_system_name() . '_base_admin_style', 
                     $this->get_plugin_url() . 'assets/css/admin-style.css'
                 );
             }
 
             if ( $this->use_admin_script ) {
-                Wellcrafted_Assets::add_admin_footer_script( 
+                Assets::add_admin_footer_script( 
                     $this->get_plugin_system_name() . '_base_admin_script', 
                     $this->get_plugin_url() . 'assets/javascript/admin-script.js',
                     [ 'jquery' ]
@@ -314,14 +326,14 @@ class Wellcrafted_Plugin {
             }
         } else {
             if ( $this->use_style ) {
-                Wellcrafted_Assets::add_style( 
+                Assets::add_style( 
                     $this->get_plugin_system_name() . '_base_style', 
                     $this->get_plugin_url() . 'assets/css/style.css'
                 );
             }
 
             if ( $this->use_script ) {
-                Wellcrafted_Assets::add_footer_script( 
+                Assets::add_footer_script( 
                     $this->get_plugin_system_name() . '_base_script', 
                     $this->get_plugin_url() . 'assets/javascript/script.js',
                     [ 'jquery' ]
@@ -330,26 +342,19 @@ class Wellcrafted_Plugin {
         }
 
         if ( $this->use_common_style ) {
-            Wellcrafted_Assets::add_common_style( 
+            Assets::add_common_style( 
                 $this->get_plugin_system_name() . '_base_common_style', 
                 $this->get_plugin_url() . 'assets/css/common-style.css'
             );
         }
 
         if ( $this->use_common_script ) {
-            Wellcrafted_Assets::add_common_footer_script( 
+            Assets::add_common_footer_script( 
                 $this->get_plugin_system_name() . '_base_common_script', 
                 $this->get_plugin_url() . 'assets/javascript/common-script.js',
                 [ 'jquery' ]
             );
         }
-    }
-
-    /**
-     * Init template loader object.
-     */
-    protected function init_template_loader() {
-        $this->template_loader = new Wellcrafted_Plugin_Template_Loader( $this->get_plugin_system_name() );
     }
 
 
@@ -379,11 +384,10 @@ class Wellcrafted_Plugin {
      */
     protected function run_autoloader() {
         spl_autoload_register( function ( $class ) {
-            if ( strpos( $class, 'Wellcrafted_' ) === 0 ) {
-                $folder = strpos( $class, '_Trait' ) === false ? 'classes' : 'traits';
-                
-                $filename = $this->get_plugin_path()  . '/' . $folder . '/' . strtolower( str_replace( ['Wellcrafted_', '_Trait', '_'], [ '', '', '-'], $class ) ) . '.php';
-
+            if ( strpos( $class, 'Wellcrafted' ) === 0 ) {
+                $folder = strpos( $class, 'Traits' ) === false ? 'classes' : 'traits';
+                $folder = '';
+                $filename = $this->get_plugin_path() . strtolower( str_replace( ['\\', '_'], [ '/', '-' ], $class ) ) . '.php';
                 if ( file_exists( $filename ) ) {
                     require $filename;
                 }

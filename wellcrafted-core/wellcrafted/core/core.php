@@ -1,25 +1,12 @@
 <?php
 
+namespace Wellcrafted\Core;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
 
-/**
- * Load a Plugin class
- */
-require 'plugin.php';
-require '../traits/singleton.php';
-
-/**
- * Require functions
- */
-$wellcrafted_function_path = dirname( __FILE__ ) . '/../functions/';
-require $wellcrafted_function_path . 'system.php';
-require $wellcrafted_function_path . 'arrays.php';
-require $wellcrafted_function_path . 'mail.php';
-require $wellcrafted_function_path . 'hooks.php';
-require $wellcrafted_function_path . 'thumbnails.php';
 
 /**
  * Wellcrafted_Core is a base framework class.
@@ -29,14 +16,14 @@ require $wellcrafted_function_path . 'thumbnails.php';
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Core extends Wellcrafted_Plugin {
+class Core extends Plugin {
 
     /**
      * Add into a class Singleton pattern ability
      *
      * @since  1.0.0
      */
-    use Wellcrafted_Singleton_Trait;
+    use Traits\Singleton;
 
     /**
      * Whether to use plugin's style on backend
@@ -86,9 +73,10 @@ class Wellcrafted_Core extends Wellcrafted_Plugin {
         add_action( 'init', function() {
             do_action( 'wellcrafted_core_register_post_types' );
             do_action( 'wellcrafted_core_register_taxonomy' );
+            // new Wellcrafted_Plugin_Template_Loader( apply_filters( 'wellcrafted_core_templates_rules', [] ) );
         });
     }
 
 } 
 
-new Wellcrafted_Core();
+new Core();

@@ -1,5 +1,7 @@
 <?php
 
+namespace Wellcrafted\Core;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -12,12 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Assets {
+class Assets {
 
     /**
      * Wellcrafted_Singleton_Trait add into a class Singleton pattern ability
      */
-    use Wellcrafted_Singleton_Trait;
+    use Traits\Singleton;
 
     /**
      * An array of styles options to link in both client and admin
@@ -298,6 +300,7 @@ class Wellcrafted_Assets {
      */
     public function enqueue_scripts() {
         if ( is_admin() ) {
+
             if ( self::instance()->use_media ) {
                 wp_enqueue_media();
             }

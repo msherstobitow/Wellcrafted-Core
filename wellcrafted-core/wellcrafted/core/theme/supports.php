@@ -1,5 +1,7 @@
 <?php
 
+namespace Wellcrafted\Core\Theme;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -12,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Theme_Supports {
+class Supports {
 
-    use Wellcrafted_Singleton_Trait;
+    use \Wellcrafted\Core\Traits\Singleton;
 
     /**
      * A list of theme supports.

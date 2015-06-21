@@ -1,5 +1,11 @@
 <?php
 
+namespace Wellcrafted\Core\Post;
+
+use Wellcrafted\Core\Core as Core;
+use Wellcrafted\Core\Assets as Assets;
+use Wellcrafted\Core\Theme\Supports as Theme_Supports;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -12,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Post_Type {
+class Type {
 
     /**
      * Post type. (max. 20 characters, cannot contain capital letters or spaces) 
@@ -450,9 +456,9 @@ class Wellcrafted_Post_Type {
                     global $post_type;
                 }
 
-                if ( isset( $post_type ) ) {
-                    Wellcrafted_Assets::localize_admin_script(
-                        Wellcrafted_Core::registry()->plugin_system_name . '_base_admin_script', 
+                if ( isset( $post_type ) && $this->post_type === $post_type ) {
+                    Assets::localize_admin_script(
+                        Core::registry()->plugin_system_name . '_base_admin_script', 
                         'wellcrafted_post_type', 
                         [ 
                             'current_post_type' => $post_type
@@ -487,7 +493,7 @@ class Wellcrafted_Post_Type {
             return wellcrafted_insert_to_array( 
                 $columns, 
                 'title', 
-                [ WELLCRAFTED . '_featured_image' => __( 'Thumbnail', WELLCRAFTED ) ],
+                [ WELLCRAFTED . '_featured_image' => __( 'Image', WELLCRAFTED ) ],
                 true
             );
         }
@@ -519,7 +525,7 @@ class Wellcrafted_Post_Type {
         if ( WELLCRAFTED . '_featured_image' === $column ) {
             $image = wellcrafted_get_featured_image_src( $post_id );
             if ( $image ) {
-                require Wellcrafted_Core::instance()->get_plugin_path() . '/views/thumbnail_column_image.php';
+                require Core::instance()->get_plugin_path() . '/views/thumbnail_column_image.php';
             }
         }
         return $column;
@@ -628,7 +634,7 @@ class Wellcrafted_Post_Type {
     private function add_theme_support() {
         if ( is_array( $this->post_type_params[ 'supports' ] ) ) {
             if ( in_array( 'thumbnail', $this->post_type_params[ 'supports' ] ) ) {
-                Wellcrafted_Theme_Supports::instance()->register_support_param( 'post-thumbnails', $this->post_type );
+                Theme_Supports::instance()->register_support_param( 'post-thumbnails', $this->post_type );
             }
         }
     }

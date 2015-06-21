@@ -1,5 +1,7 @@
 <?php
 
+namespace Wellcrafted\Core;
+
 if ( ! defined( 'ABSPATH' ) ) {
     header('HTTP/1.0 403 Forbidden');
     exit;
@@ -13,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Wellcrafted_Registry {
+class Registry {
 
     /**
      * An array to caontain a registry data
