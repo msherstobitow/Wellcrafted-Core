@@ -437,7 +437,7 @@ class Type {
         }
 
         $this->init();
-        $this->_localize_script();
+        $this->localize_script();
 
     }
 
@@ -446,7 +446,7 @@ class Type {
      * 
      * @since  1.0.0
      */
-    private function _localize_script() {
+    private function localize_script() {
         if ( ! $this->is_script_localized && is_admin() ) {
 
             add_action( 'admin_enqueue_scripts', function() {
