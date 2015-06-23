@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version 1.0.0
  * @package Wellcrafted\Core
  */
-class Plugin {
+abstract class Plugin {
     /**
      * Whether a plugin should use its own autoloader.
      *
@@ -189,6 +189,8 @@ class Plugin {
             $this->run_autoloader();
         }
 
+        $this->load_translations();
+
         if ( $this->use_vendor ) {
             $this->run_vendor_autoloader();
         }
@@ -226,6 +228,24 @@ class Plugin {
 
     }
 
+    /**
+     * @todo PHPDoc
+     * @return [type] [description]
+     */
+    protected function load_translations() {
+        load_plugin_textdomain( $this->textdomain(), false, $this->get_plugin_path() . 'translations' );
+    }
+
+    /**
+     * [textdomain description]
+     * @return [type] [description]
+     */
+    abstract protected function textdomain();
+
+    /**
+     * Return all installed WordPress plugins data
+     * @return array plugins data array
+     */
     protected function all_plugins_data() {
         if ( null === self::$all_plugins_data ) {
             if ( ! function_exists( 'get_plugins' ) ) {
