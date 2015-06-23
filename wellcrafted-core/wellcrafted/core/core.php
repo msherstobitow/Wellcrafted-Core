@@ -77,6 +77,13 @@ class Core extends Plugin {
         });
     }
 
+    /**
+     * @todo PHPDoc
+     * @return [type] [description]
+     */
+    protected function textdomain() {
+        return WELLCRAFTED;
+    }
 } 
 
 new Core();
