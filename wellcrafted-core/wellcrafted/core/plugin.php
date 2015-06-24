@@ -27,6 +27,14 @@ abstract class Plugin {
     protected $use_autoloader = true;
 
     /**
+     * Whether a plugin should load its own translations.
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $load_translations = true;
+
+    /**
      * Whether to use vendor autoloader for compaser packages.
      * 
      * @var boolean
@@ -189,7 +197,9 @@ abstract class Plugin {
             $this->run_autoloader();
         }
 
-        $this->load_translations();
+        if ( $this->load_translations ) {
+            $this->load_translations();
+        }
 
         if ( $this->use_vendor ) {
             $this->run_vendor_autoloader();
@@ -233,8 +243,11 @@ abstract class Plugin {
      * @return [type] [description]
      */
     protected function load_translations() {
-        var_dump( $this->get_plugin_path() . 'translations' ); exit;
-        load_plugin_textdomain( $this->textdomain(), false, $this->plugin_path() . 'translations' );
+        $locale = apply_filters( 'plugin_locale', get_locale(), $this->textdomain() );
+        load_textdomain( 
+            $this->textdomain(), 
+            $this->get_plugin_path() . 'translations/' . $locale . '.mo'
+        );
     }
 
     /**

@@ -26,6 +26,14 @@ class Core extends Plugin {
     use Traits\Singleton;
 
     /**
+     * Whether a plugin should load its own translations.
+     * 
+     * @var boolean
+     * @since  1.0.0
+     */
+    protected $load_translations = false;
+
+    /**
      * Whether to use plugin's style on backend
      * 
      * The style should be placed at ./assets/css/admin-style.css
