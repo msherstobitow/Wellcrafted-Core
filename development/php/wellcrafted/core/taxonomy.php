@@ -442,33 +442,33 @@ class Taxonomy {
      */
     protected function normalize_params() {
         if ( $this->hierarchical ) {
-            $this->name_label = $this->name_label ? $this->name_label : _x( 'Categories', 'taxonomy general name' );
-            $this->singular_name_label = $this->singular_name_label ? $this->singular_name_label : _x( 'Category', 'taxonomy singular name' );
-            $this->all_items_label = $this->all_items_label ? $this->all_items_label : __( 'All Categories' );
-            $this->edit_item_label = $this->edit_item_label ? $this->edit_item_label : __( 'Edit Category' );
-            $this->view_item_label = $this->view_item_label ? $this->view_item_label : __( 'View Category' );
-            $this->update_item_label = $this->update_item_label ? $this->update_item_label : __( 'Update Category' );
-            $this->add_new_item_label = $this->add_new_item_label ? $this->add_new_item_label : __( 'Add New Category' );
-            $this->new_item_name_label = $this->new_item_name_label ? $this->new_item_name_label : __( 'New Category Name' );
-            $this->parent_item_label = $this->parent_item_label ? $this->parent_item_label : __( 'Parent Category' );
-            $this->parent_item_colon_label = $this->parent_item_colon_label ? $this->parent_item_colon_label : __( 'Parent Category:' );
-            $this->search_items_label = $this->search_items_label ? $this->search_items_label : __( 'Search Categories' );
-            $this->not_found_label = $this->not_found_label ? $this->not_found_label : __( 'No categories found.' );
+            $this->name_label = $this->name_label ? $this->name_label : _x( 'Categories', 'taxonomy general name', WELLCRAFTED );
+            $this->singular_name_label = $this->singular_name_label ? $this->singular_name_label : _x( 'Category', 'taxonomy singular name', WELLCRAFTED );
+            $this->all_items_label = $this->all_items_label ? $this->all_items_label : __( 'All Categories', WELLCRAFTED );
+            $this->edit_item_label = $this->edit_item_label ? $this->edit_item_label : __( 'Edit Category', WELLCRAFTED );
+            $this->view_item_label = $this->view_item_label ? $this->view_item_label : __( 'View Category', WELLCRAFTED );
+            $this->update_item_label = $this->update_item_label ? $this->update_item_label : __( 'Update Category', WELLCRAFTED );
+            $this->add_new_item_label = $this->add_new_item_label ? $this->add_new_item_label : __( 'Add New Category', WELLCRAFTED );
+            $this->new_item_name_label = $this->new_item_name_label ? $this->new_item_name_label : __( 'New Category Name', WELLCRAFTED );
+            $this->parent_item_label = $this->parent_item_label ? $this->parent_item_label : __( 'Parent Category', WELLCRAFTED );
+            $this->parent_item_colon_label = $this->parent_item_colon_label ? $this->parent_item_colon_label : __( 'Parent Category:', WELLCRAFTED );
+            $this->search_items_label = $this->search_items_label ? $this->search_items_label : __( 'Search Categories', WELLCRAFTED );
+            $this->not_found_label = $this->not_found_label ? $this->not_found_label : __( 'No categories found.', WELLCRAFTED );
         } else {
-            $this->name_label = $this->name_label ? $this->name_label : _x( 'Post Tags', 'taxonomy general name' );
-            $this->singular_name_label = $this->singular_name_label ? $this->singular_name_label : _x( 'Post Tag', 'taxonomy singular name' );
-            $this->all_items_label = $this->all_items_label ? $this->all_items_label : __( 'All Tags' );
-            $this->edit_item_label = $this->edit_item_label ? $this->edit_item_label : __( 'Edit Tag' );
-            $this->view_item_label = $this->view_item_label ? $this->view_item_label : __( 'View Tag' );
-            $this->update_item_label = $this->update_item_label ? $this->update_item_label : __( 'Update Tag' );
-            $this->add_new_item_label = $this->add_new_item_label ? $this->add_new_item_label : __( 'Add New Tag' );
-            $this->new_item_name_label = $this->new_item_name_label ? $this->new_item_name_label : __( 'New Tag Name' );
-            $this->search_items_label = $this->search_items_label ? $this->search_items_label : __( 'Search Tags' );
-            $this->popular_items_label = $this->popular_items_label ? $this->popular_items_label : __( 'Popular Tags' );
-            $this->separate_items_with_commas_label = $this->separate_items_with_commas_label ? $this->separate_items_with_commas_label : __( 'Separate tags with commas' );
-            $this->add_or_remove_items_label = $this->add_or_remove_items_label ? $this->add_or_remove_items_label : __( 'Add or remove tags' );
-            $this->choose_from_most_used_label = $this->choose_from_most_used_label ? $this->choose_from_most_used_label : __( 'Choose from the most used tags' );
-            $this->not_found_label = $this->not_found_label ? $this->not_found_label : __( 'No tags found.' );
+            $this->name_label = $this->name_label ? $this->name_label : _x( 'Post Tags', 'taxonomy general name', WELLCRAFTED );
+            $this->singular_name_label = $this->singular_name_label ? $this->singular_name_label : _x( 'Post Tag', 'taxonomy singular name', WELLCRAFTED );
+            $this->all_items_label = $this->all_items_label ? $this->all_items_label : __( 'All Tags', WELLCRAFTED );
+            $this->edit_item_label = $this->edit_item_label ? $this->edit_item_label : __( 'Edit Tag', WELLCRAFTED );
+            $this->view_item_label = $this->view_item_label ? $this->view_item_label : __( 'View Tag', WELLCRAFTED );
+            $this->update_item_label = $this->update_item_label ? $this->update_item_label : __( 'Update Tag', WELLCRAFTED );
+            $this->add_new_item_label = $this->add_new_item_label ? $this->add_new_item_label : __( 'Add New Tag', WELLCRAFTED );
+            $this->new_item_name_label = $this->new_item_name_label ? $this->new_item_name_label : __( 'New Tag Name', WELLCRAFTED );
+            $this->search_items_label = $this->search_items_label ? $this->search_items_label : __( 'Search Tags', WELLCRAFTED );
+            $this->popular_items_label = $this->popular_items_label ? $this->popular_items_label : __( 'Popular Tags', WELLCRAFTED );
+            $this->separate_items_with_commas_label = $this->separate_items_with_commas_label ? $this->separate_items_with_commas_label : __( 'Separate tags with commas', WELLCRAFTED );
+            $this->add_or_remove_items_label = $this->add_or_remove_items_label ? $this->add_or_remove_items_label : __( 'Add or remove tags', WELLCRAFTED );
+            $this->choose_from_most_used_label = $this->choose_from_most_used_label ? $this->choose_from_most_used_label : __( 'Choose from the most used tags', WELLCRAFTED );
+            $this->not_found_label = $this->not_found_label ? $this->not_found_label : __( 'No tags found.', WELLCRAFTED );
 
         }
 
