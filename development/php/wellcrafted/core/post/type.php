@@ -647,7 +647,8 @@ class Type {
     public function register_post_type() {
         register_post_type( $this->post_type, $this->post_type_params );
         self::$reserved_post_types[] = $this->post_type;
-        add_filter('post_updated_messages', [ &$this, 'post_updated_messages' ] );
+        add_filter( 'post_updated_messages', [ &$this, 'post_updated_messages' ] );
+        add_filter( 'bulk_post_updated_messages', [ &$this, 'bulk_post_updated_messages' ], 10, 2 );
     }
 
     /**
@@ -657,7 +658,6 @@ class Type {
      * @since  1.0.0
      */
     final public function post_updated_messages( $messages ) {
-
         if ( ! array_key_exists( $this->post_type, $messages ) ) {
             if ( $this->hierarchical ) {
                 $messages[ $this->post_type ] = $messages[ 'page' ];
@@ -667,7 +667,7 @@ class Type {
         }
 
         $post_type_messages = $this->current_post_updated_messages( $messages[ $this->post_type ] );
-        
+
         if ( is_array( $post_type_messages ) ) {
             $messages[ $this->post_type ] = $post_type_messages;
         }
@@ -682,8 +682,45 @@ class Type {
      * @return array           Modified messages array
      * @since  1.0.0
      */
-    protected function current_post_updated_messages( $messages ) {}
-    
+    protected function current_post_updated_messages( $messages ) {
+        return $messages;
+    }
+
+    /**
+     * Allows to modify bulk messages of a post type.
+     * 
+     * @return array    Messages array
+     * @since  1.0.0
+     */
+    final public function bulk_post_updated_messages( $messages, $counts ) {
+        if ( ! array_key_exists( $this->post_type, $messages ) ) {
+            if ( $this->hierarchical ) {
+                $messages[ $this->post_type ] = $messages[ 'page' ];
+            } else {
+                $messages[ $this->post_type ] = $messages[ 'post' ];
+            }
+        }
+
+        $bulk_messages = $this->current_bulk_post_updated_messages( $messages[ $this->post_type ], $counts );
+
+        if ( is_array( $bulk_messages ) ) {
+            $messages[ $this->post_type ] = $bulk_messages;
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Allows to modify bulk messages of a post type.
+     * 
+     * @param  array $messages Messages array
+     * @return array           Modified messages array
+     * @since  1.0.0
+     */
+    protected function current_bulk_post_updated_messages( $messages, $counts ) {
+        return $messages;
+    }
+
     /**
      * Add metaboxes nonce
      *
