@@ -173,7 +173,7 @@ abstract class Plugin {
      * @var null
      * @since  1.0.0
      */
-    protected $template_loader = null;
+    protected static $template_loader = null;
 
     /**
      * Whether to use template loader
@@ -182,6 +182,15 @@ abstract class Plugin {
      * @since  1.0.0
      */
     protected $use_template_loader = false;
+
+    /**
+     * Define a folder name to store plugin data in theme.
+     *
+     * The resulting folder is 'THEME_FOLDER/wellcrafted/$templates_folder/'
+     * @var null
+     * @since  1.0.0
+     */
+    protected $plugin_theme_folder = null;
 
     /**
      * All installed WordPress plugins data.
@@ -207,11 +216,10 @@ abstract class Plugin {
 
         $this->init_assets();
 
-        if ( $this->use_template_loader ) {
-            /**
-             * @todo add filter for templates rules
-             */
-            //$this->init_template_loader();
+        if ( !is_admin() ) {
+            if ( $this->use_template_loader ) {
+                $this->init_template_loader();
+            }
         }
         
 
@@ -241,6 +249,7 @@ abstract class Plugin {
     /**
      * @todo PHPDoc
      * @return [type] [description]
+     * @since  1.0.0
      */
     protected function load_translations() {
         $locale = apply_filters( 'plugin_locale', get_locale(), $this->textdomain() );
@@ -248,11 +257,13 @@ abstract class Plugin {
             $this->textdomain(), 
             $this->get_plugin_path() . 'translations/' . $locale . '.mo'
         );
+
     }
 
     /**
-     * [textdomain description]
-     * @return [type] [description]
+     * Return plugin's textdomain
+     * @return string textdomain
+     * @since  1.0.0
      */
     abstract protected function textdomain();
 
@@ -391,6 +402,36 @@ abstract class Plugin {
         }
     }
 
+    /**
+     * @todo PHPDoc
+     * @return [type] [description]
+     */
+    protected function init_template_loader() {
+        if ( null === self::$template_loader ) {
+            self::$template_loader = new Template\Loader();
+        }
+
+        if ( ! $this->plugin_theme_folder ) {
+            $this->plugin_theme_folder = $this->textdomain;
+        }
+
+        self::$template_loader->add_rules_set( 
+            $this->textdomain(), 
+            [
+                'plugin_theme_folder' => $this->plugin_theme_folder,
+                'default_path' => $this->get_plugin_path() . 'templates/',
+                'rules' => $this->template_loader_rules()
+            ]
+        );
+    }
+
+    /**
+     * @todo PHPDoc
+     * @param [type] $rules [description]
+     */
+    public function template_loader_rules() {
+        return [];
+    }
 
     /**
      * Return plugin's registry to get regisry's stored data

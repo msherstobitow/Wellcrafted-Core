@@ -33,7 +33,7 @@ define( 'WELLCRAFTED_COMPATIBLE_PHP_VERSION', '5.4.0' );
 /**
  * Load Wellcrafted Core translations
  */
-add_action( 'plugins_loaded', 'wellcrafted_load_core_plugin_textdomain' );
+add_action('init', 'wellcrafted_load_core_plugin_textdomain' );
 
 function wellcrafted_load_core_plugin_textdomain() {
     $locale = apply_filters( 'plugin_locale', get_locale(), WELLCRAFTED );
