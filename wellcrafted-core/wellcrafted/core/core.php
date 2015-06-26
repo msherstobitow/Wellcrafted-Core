@@ -73,6 +73,8 @@ class Core extends Plugin {
      * @since  1.0.0
      */
     private function init() {
+        add_action( 'plugins_loaded', [ &$this, 'load_theme_filters' ] );
+
         // Run all wellcrafted plugins
         add_action( 'plugins_loaded', function() {
             do_action( 'wellcrafted_core_initilized' );
@@ -92,6 +94,14 @@ class Core extends Plugin {
     protected function textdomain() {
         return WELLCRAFTED;
     }
+
+    public function load_theme_filters() {
+        $filters_path = get_stylesheet_directory() . '/wellcrafted/filters.php';
+        if ( file_exists( $filters_path ) ) {
+            require $filters_path;
+        }
+    }
+
 } 
 
 new Core();

@@ -402,6 +402,16 @@ class Taxonomy {
          */
         $this->taxonomy = substr( str_replace( ' ', '', strtolower( $this->taxonomy ) ), 0, 32 );
 
+        /**
+         * Filter wellcrafted_taxonomy_name_$this->taxonomy allows to modify taxonomy name
+         */
+        $this->taxonomy = self::get_filtered_taxonomy_name( $this->taxonomy );
+
+        /**
+         * Filter wellcrafted_post_type_name_$this->object_type allows to modify an object type name
+         */
+        $this->object_type = \Wellcrafted\Core\Post\Type::get_filtered_post_type_name( $this->object_type );
+
         if ( null == $this->taxonomy || 
             in_array( $this->taxonomy, self::$reserved_terms ) ) {
             return;
@@ -538,6 +548,25 @@ class Taxonomy {
     public function register_taxonomy() {
         register_taxonomy( $this->taxonomy, [ $this->object_type ], $this->taxonomy_params );
         self::$reserved_terms[] = $this->taxonomy;
+    }
+
+    /**
+     * Filter post type name
+     * @param  string or array $post_type A post type name or names
+     * @return string or array            A post type name or names
+     */
+    public static function get_filtered_taxonomy_name( $taxonomy ) {
+        if ( is_string( $taxonomy ) ) {
+            return apply_filters( 'wellcrafted_taxonomy_name_' . $taxonomy, $taxonomy );
+        }
+
+        if ( is_array( $taxonomy ) ) {
+            foreach ( $taxonomy as $index => $name ) {
+                $post_type[ $index ] = apply_filters( 'wellcrafted_taxonomy_name_' . $name, $name );
+            }
+        }
+
+        return $taxonomy;
     }
 
 }

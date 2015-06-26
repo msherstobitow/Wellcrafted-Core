@@ -415,14 +415,20 @@ abstract class Plugin {
             $this->plugin_theme_folder = $this->textdomain;
         }
 
-        self::$template_loader->add_rules_set( 
-            $this->textdomain(), 
+        /**
+         * Filter 'PLUGIN_TEXTDOMAIN_template_loader_rules' allows to modify current template loader rules
+         * @var array
+         */
+        $rules_set = apply_filters( 
+            $this->textdomain() . '_template_loader_rules',
             [
                 'plugin_theme_folder' => $this->plugin_theme_folder,
                 'default_path' => $this->get_plugin_path() . 'templates/',
                 'rules' => $this->template_loader_rules()
             ]
         );
+
+        self::$template_loader->add_rules_set( $this->textdomain(), $rules_set );
     }
 
     /**
