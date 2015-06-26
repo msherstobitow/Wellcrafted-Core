@@ -396,6 +396,8 @@ class Type {
          */
         $this->post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 20 );
 
+        $this->post_type = self::get_filtered_post_type_name( $this->post_type );
+
         if ( null == $this->post_type || 
             in_array( $this->post_type, self::$reserved_post_types ) ) {
             return;
@@ -775,5 +777,24 @@ class Type {
      * @since  1.0.0
      */
     protected function save_meta_boxes_data() {}
+
+    /**
+     * Filter post type name
+     * @param  string or array $post_type A post type name or names
+     * @return string or array            A post type name or names
+     */
+    public static function get_filtered_post_type_name( $post_type ) {
+        if ( is_string( $post_type ) ) {
+            return apply_filters( 'wellcrafted_post_type_name_' . $post_type, $post_type );
+        }
+
+        if ( is_array( $post_type ) ) {
+            foreach ( $post_type as $index => $name ) {
+                $post_type[ $index ] = apply_filters( 'wellcrafted_post_type_name_' . $name, $name );
+            }
+        }
+
+        return $post_type;
+    }
 
 }
