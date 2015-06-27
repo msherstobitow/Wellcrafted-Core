@@ -237,7 +237,7 @@ abstract class Plugin {
         $dirname = dirname( $filename );
         $folder_name = reset( explode( DIRECTORY_SEPARATOR, trim( str_replace( WP_PLUGIN_DIR, '', $dirname ), DIRECTORY_SEPARATOR ) ) );
         $this->plugin_system_name = self::registry()->plugin_system_name = $folder_name . '/' . $folder_name . '.php';
-        $this->plugin_url = plugin_dir_url( WP_PLUGIN_DIR . '/' . $this->plugin_system_name );
+        $this->plugin_url = self::registry()->plugin_url = plugin_dir_url( WP_PLUGIN_DIR . '/' . $this->plugin_system_name );
         $this->plugin_path = WP_PLUGIN_DIR . '/' . $folder_name . '/';
 
         if ( ! $this->plugin_name ) {
