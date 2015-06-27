@@ -62,50 +62,13 @@ class Loader {
         }
 
         return $template;
-        $find = array( 'woocommerce.php' );
-        $file = '';
-
-        if ( is_single() && get_post_type() == 'product' ) {
-
-            $file   = 'single-product.php';
-            $find[] = $file;
-            $find[] = WC()->template_path() . $file;
-
-        } elseif ( is_product_taxonomy() ) {
-
-            $term   = get_queried_object();
-
-            if ( is_tax( 'product_cat' ) || is_tax( 'product_tag' ) ) {
-                $file = 'taxonomy-' . $term->taxonomy . '.php';
-            } else {
-                $file = 'archive-product.php';
-            }
-
-            $find[] = 'taxonomy-' . $term->taxonomy . '-' . $term->slug . '.php';
-            $find[] = WC()->template_path() . 'taxonomy-' . $term->taxonomy . '-' . $term->slug . '.php';
-            $find[] = 'taxonomy-' . $term->taxonomy . '.php';
-            $find[] = WC()->template_path() . 'taxonomy-' . $term->taxonomy . '.php';
-            $find[] = $file;
-            $find[] = WC()->template_path() . $file;
-
-        } elseif ( is_post_type_archive( 'product' ) || is_page( wc_get_page_id( 'shop' ) ) ) {
-
-            $file   = 'archive-product.php';
-            $find[] = $file;
-            $find[] = WC()->template_path() . $file;
-
-        }
-
-        if ( $file ) {
-            $template       = locate_template( array_unique( $find ) );
-            if ( ! $template || WC_TEMPLATE_DEBUG_MODE ) {
-                $template = WC()->plugin_path() . '/templates/' . $file;
-            }
-        }
-
-        return $template;
     }
 
+    /**
+     * @todo PHPDoc
+     * @param  [type] $conditions [description]
+     * @return [type]             [description]
+     */
     protected function check_condition( $conditions ) {
         $satisfied = false;
 
