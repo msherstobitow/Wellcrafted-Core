@@ -29,6 +29,15 @@ class Type {
     protected $post_type = null;
 
     /**
+     * Store a base post type. 
+     * 
+     * $post_type can be redefined with filters, but $base_post_type will be equal to a class base $post_type value.
+     * @var null
+     * @since  1.0.0
+     */
+    protected $base_post_type = null;
+
+    /**
      * General name for the post type, usually plural. The same as, and overridden by $post_type_object->label 
      * 
      * @var string
@@ -394,9 +403,9 @@ class Type {
          *
          * @see https://codex.wordpress.org/Function_Reference/register_post_type An official Codex page.
          */
-        $this->post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 20 );
+        $this->post_type = $this->base_post_type = substr( str_replace( ' ', '', strtolower( $this->post_type ) ), 0, 20 );
 
-        $this->post_type = self::get_filtered_post_type_name( $this->post_type );
+        $this->post_type = self::get_filtered_post_type_name( $this->base_post_type );
 
         if ( null == $this->post_type || 
             in_array( $this->post_type, self::$reserved_post_types ) ) {
@@ -647,8 +656,18 @@ class Type {
      * @since  1.0.0
      */
     public function register_post_type() {
-        register_post_type( $this->post_type, $this->post_type_params );
+        /**
+         * Filter welcrafted_post_type_params_$this->base_post_type allows to redefine post type params right before post type registration.
+         *
+         * @param  array $this->post_type_params Post type params array
+         */
+        register_post_type( 
+            $this->post_type, 
+            apply_filters( 'welcrafted_post_type_params_' . $this->base_post_type, $this->post_type_params )
+        );
+
         self::$reserved_post_types[] = $this->post_type;
+
         add_filter( 'post_updated_messages', [ &$this, 'post_updated_messages' ] );
         add_filter( 'bulk_post_updated_messages', [ &$this, 'bulk_post_updated_messages' ], 10, 2 );
     }
