@@ -25,6 +25,15 @@ class Taxonomy {
     protected $taxonomy = '';
 
     /**
+     * Store a base taxonomy. 
+     * 
+     * $taxonomy can be redefined with filters, but $base_taxonomy will be equal to a class base $taxonomy value.
+     * @var null
+     * @since  1.0.0
+     */
+    protected $base_taxonomy = null;
+
+    /**
      * Name of the object type for the taxonomy object. Object-types can be built-in Post Type or any Custom Post Type that may be registered. 
      * 
      * @var string or array
@@ -400,12 +409,12 @@ class Taxonomy {
          *
          * @see  https://codex.wordpress.org/Function_Reference/register_taxonomy An official Codex page
          */
-        $this->taxonomy = substr( str_replace( ' ', '', strtolower( $this->taxonomy ) ), 0, 32 );
+        $this->taxonomy = $this->base_taxonomy = substr( str_replace( ' ', '', strtolower( $this->taxonomy ) ), 0, 32 );
 
         /**
          * Filter wellcrafted_taxonomy_name_$this->taxonomy allows to modify taxonomy name
          */
-        $this->taxonomy = self::get_filtered_taxonomy_name( $this->taxonomy );
+        $this->taxonomy = self::get_filtered_taxonomy_name( $this->base_taxonomy );
 
         /**
          * Filter wellcrafted_post_type_name_$this->object_type allows to modify an object type name
@@ -546,7 +555,16 @@ class Taxonomy {
      * @since  1.0.0
      */
     public function register_taxonomy() {
-        register_taxonomy( $this->taxonomy, [ $this->object_type ], $this->taxonomy_params );
+        /**
+         * Filter welcrafted_taxonomy_params_$this->base_taxonomy allows to redefine taxonomy params right before taxonomy registration.
+         *
+         * @param  array $this->taxonomy_params Taxonomy params array
+         */
+        register_taxonomy( 
+            $this->taxonomy, [ $this->object_type ], 
+            apply_filters( 'welcrafted_taxonomy_params_' . $this->base_taxonomy, $this->taxonomy_params )
+        );
+
         self::$reserved_terms[] = $this->taxonomy;
     }
 
