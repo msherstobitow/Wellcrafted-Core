@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Wellcrafted_Assets allows to add any assets to a head or a footer of a page, both front and admin
+ * Assets allows to add any assets to a head or a footer of a page, both front and admin
  *
  * @author  Maksim Sherstobitow <maksim.sherstobitow@gmail.com>
  * @version 1.0.0
