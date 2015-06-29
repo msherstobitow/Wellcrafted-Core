@@ -423,7 +423,8 @@ abstract class Plugin {
             $this->textdomain() . '_template_loader_rules',
             [
                 'plugin_theme_folder' => $this->plugin_theme_folder,
-                'default_path' => $this->get_plugin_path() . 'templates/',
+                'default_path' => $this->get_plugin_path(),
+                'default_url' => $this->get_plugin_url(),
                 'rules' => $this->template_loader_rules()
             ]
         );
