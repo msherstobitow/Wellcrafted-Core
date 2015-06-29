@@ -46,7 +46,49 @@ class Loader {
                     foreach ( $rules_set[ 'rules' ] as $rule ) {
                         if ( isset( $rule[ 'condition' ] ) && isset( $rule[ 'template' ] ) ) {
                             if ( $this->check_condition( $rule[ 'condition' ] ) ) {
+                                if ( isset( $rule[ 'vendor_assets' ] ) ) {
+                                    if ( !is_array( $rule[ 'vendor_assets' ] ) ) {
+                                        $rule[ 'vendor_assets' ] = [ $rule[ 'vendor_assets' ] ];
+                                    }
+                                    foreach ( $rule[ 'vendor_assets' ] as $asset ) {
+                                        \Wellcrafted\Core\Assets\Vendor::instance()->enqueue( $asset );
+                                    }
+                                }
+
+                                /**
+                                 * Link template-specific CSS
+                                 */
+                                if ( ! empty( $rules_set[ 'default_url' ] ) && isset( $rule[ 'css' ] ) ) {
+                                    if ( !is_array( $rule[ 'css' ] ) ) {
+                                        $rule[ 'css' ] = [ $rule[ 'css' ] ];
+                                    }
+                                    foreach ( $rule[ 'css' ] as $css ) {
+                                        \Wellcrafted\Core\Assets::add_style(
+                                            $rules_set[ 'plugin_theme_folder' ] . '/' . $css,
+                                            $rules_set[ 'default_url' ] . 'assets/css/templates/' . $css . '.css'
+                                        );
+                                    }
+                                }
+
+                                /**
+                                 * Add template-specific JS
+                                 */
+                                if ( ! empty( $rules_set[ 'default_url' ] ) && isset( $rule[ 'js' ] ) ) {
+                                    if ( !is_array( $rule[ 'js' ] ) ) {
+                                        $rule[ 'js' ] = [ $rule[ 'js' ] ];
+                                    }
+                                    foreach ( $rule[ 'js' ] as $js ) {
+                                        \Wellcrafted\Core\Assets::add_footer_script(
+                                            $rules_set[ 'plugin_theme_folder' ] . '/' . $js,
+                                            $rules_set[ 'default_url' ] . 'assets/javascript/templates/' . $js . '.js',
+                                            [ 'jquery' ]
+                                        );
+                                    }
+                                }
+                                
+
                                 $rendered = $this->render_template( $rule[ 'template' ], $rules_set[ 'plugin_theme_folder' ], $rules_set[ 'default_path' ] );
+                                
                                 if ( $rendered ) {
                                     break;
                                 }
@@ -68,6 +110,8 @@ class Loader {
      * @todo PHPDoc
      * @param  [type] $conditions [description]
      * @return [type]             [description]
+     *
+     * If it doesn't work, update permalinks!
      */
     protected function check_condition( $conditions ) {
         $satisfied = false;
@@ -123,7 +167,7 @@ class Loader {
             return $located_template;
         }
 
-        $default_template_path = $default_path . $template . '.php';
+        $default_template_path = $default_path . 'templates/'. $template . '.php';
         
         if ( file_exists( $default_template_path ) ) {
             return $default_template_path;
